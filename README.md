@@ -8,6 +8,11 @@ software utilities to use my homemade midi input device with puredata
 - autotools
 - arduino
 
+## Run Dependencies
+
+- [puredata](https://puredata.info/): sgDevice is mainly to be used with puredata.
+- [ttymidi](https://github.com/cjbarnes18/ttymidi): This software can be used to connect the usb input/output to alsa on linux
+
 ## Preparing the Repository, and cleaning
 
 - Make shure to issue this command before any other:
@@ -57,6 +62,8 @@ software utilities to use my homemade midi input device with puredata
 ### init docu
 
 	$ ./scripts/doc_init.fish
+
+(!): You'll also need some way to redirect usb midi to alsa, e.g. [ttymidi](https://github.com/cjbarnes18/ttymidi).
 
 ### run docu
 
