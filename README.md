@@ -36,7 +36,7 @@ software utilities to use my homemade midi input device with puredata
 
 	- start pd from the command line like this:
 
-			$ pd [-path <install_path>] -lib sdScript
+			$ pd [-path <install_path>] -lib sgDevice
 
 	- add this to `~/.pdsettings` :
 
