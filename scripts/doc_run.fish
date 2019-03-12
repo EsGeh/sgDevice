@@ -10,6 +10,8 @@ set install $doc_dir/install
 
 set baud_rate (cat "$BASE_DIR/src/global/Constants.h" | grep '^#define PC_RATE' | cut -d' ' -f3)
 
+echo "baud rate (from '$BASE_DIR/src/global/Constants.h'): $baud_rate"
+
 status is-full-job-control
 echo "full job control: $status"
 
