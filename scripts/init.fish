@@ -1,22 +1,32 @@
 #!/bin/fish
 
-
 set BASE_DIR (dirname (readlink -m (status filename)))/..
-set DEP_DIR $BASE_DIR/dependencies
+set SCRIPTS_DIR (dirname (readlink -m (status filename)))
+set DEP_DIR_DEFAULT "$BASE_DIR/dependencies"
 
-## install dependencies
+set get_deps_version "65da50672657e1edaf939291434853ad9fc16ff9"
+
+mkdir -p "$DEP_DIR_DEFAULT"
+
+set get_deps_uri "https://github.com/EsGeh/git_deps/raw/$get_deps_version/get_deps.fish"
 begin
-	rm -rf -v $DEP_DIR
-	mkdir -p -v $DEP_DIR
-	cd $DEP_DIR
-	git clone git@github.com:EsGeh/fishshell-cmd-opts.git
-	cd fishshell-cmd-opts/
-	git checkout e446daf1741b416ecb83e4741b4cb7f99645bc11
+	wget \
+		--output-document="$DEP_DIR_DEFAULT/get_deps.fish" \
+			"$get_deps_uri" 2>/dev/null
+	and chmod u+x "$DEP_DIR_DEFAULT/get_deps.fish"
+end
+or begin
+	echo "ERROR while downloading '$repo_uri'"
+	exit 1
+end
+
+and begin
+	eval "$DEP_DIR_DEFAULT/get_deps.fish" $argv
 end
 
 ## run autotools:
 and begin
 	cd $BASE_DIR
-	autoreconf -i
-	automake
+	and autoreconf -i
+	and automake
 end
