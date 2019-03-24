@@ -79,5 +79,6 @@ if test $mode = 'ascii'
 	tail -f $usb_dev
 else
 	# dump as hex:
-	tail -f $usb_dev | hexdump -v -e '1/1 "x%02X\n"'
+	cat $usb_dev | hexdump -v -e '1/1 "x%02X\n"'
+	# tail -f $usb_dev | hexdump -v -e '1/1 "x%02X\n"'
 end
