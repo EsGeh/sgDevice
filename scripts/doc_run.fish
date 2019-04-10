@@ -17,7 +17,11 @@ eval "$SCRIPTS_DIR/ttymidi --baudrate=$baud_rate --serialdevice=/dev/ttyACM0 --n
 set tty_pid (ps -C ttymidi -o pid=)
 # set tty_pid (jobs -l | awk '{print $2}')
 
-echo "ttymidi pid: $tty_pid"
+if test "$tty_pid" != ""
+	echo "ttymidi pid: $tty_pid"
+else
+	echo "WARNING: sgDevice propably unplugged"
+end
 
 function on_exit
 	echo "killing tty ($tty_pid)..."
@@ -29,8 +33,22 @@ trap on_exit EXIT
 
 pd -noaudio \
 	-alsamidi \
+	-stderr \
 	-midiindev 1 \
 	-noprefs \
 	-path "$doc_dir" \
 	-lib "sgDevice" \
-	"$doc_dir/sgDevice-help.pd"
+	-lib "structuredDataC" \
+	"$doc_dir/sgDevice-help.pd" &
+
+if test "$tty_pid" != ""
+	sleep 1
+	aconnect ttymidi_test 'Pure Data'
+end
+
+set pd_pid $last_pid
+# (ps -C pd -o pid=)
+
+echo "pd pid: $pd_pid"
+
+wait $pd_pid
