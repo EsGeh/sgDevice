@@ -2,6 +2,7 @@
 
 set BASE_DIR (dirname (readlink -m (status filename)))/..
 set SCRIPTS_DIR (dirname (readlink -m (status filename)))
+set DEP_DIR $BASE_DIR/dependencies
 
 if test ! -e $SCRIPTS_DIR/utils/cmd_args.fish
 	echo "error: fishshell-cmd-opts not installed!"
@@ -49,4 +50,12 @@ and begin
 	set cmd "$SCRIPTS_DIR/utils/install_only_abstractions.fish --source '$BASE_DIR/pd_objs' --dest '$doc_dir' --link"
 	echo "executing: '$cmd'"
 	eval "$cmd"
+end
+
+# dependencies:
+
+# structuredData:
+begin
+	echo "installing structuredData into '$doc_dir'"
+	and eval "$DEP_DIR/structuredData/scripts/build.fish --prefix '$doc_dir' install"
 end

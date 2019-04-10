@@ -1,0 +1,23 @@
+#N canvas 0 30 798 854 10;
+#X obj 251 142 sdObjState \$1 \$2;
+#X obj 99 36 inlet;
+#X obj 165 224 sgDevice;
+#X obj 165 200 midiin;
+#X obj 343 171 outlet;
+#X obj 188 303 sdPackMatch;
+#X obj 188 326 s \$0-send;
+#X obj 367 112 r \$0-send;
+#X obj 264 219 loadbang;
+#X text 368 221 convert simple messages into events named after the
+type of device:;
+#X msg 252 249 clear \, add trigger trigger ?index 1 \, add switch
+switch ?index ?value \, add analog analog ?index ?value \, add meta
+meta ?index 1;
+#X connect 0 2 4 0;
+#X connect 1 0 0 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 5 0 6 0;
+#X connect 7 0 0 2;
+#X connect 8 0 10 0;
+#X connect 10 0 5 0;

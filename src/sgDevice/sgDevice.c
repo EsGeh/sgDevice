@@ -171,7 +171,7 @@ void sgDeviceOnInput(t_sgDevice* pThis, t_floatarg f)
 			{
 				output(
 						pThis,
-						gensym("sgDevice.trigger"),
+						gensym("trigger"),
 						control_id-TRIGGERS_CONTROL_ID,
 						1
 				);
@@ -185,7 +185,7 @@ void sgDeviceOnInput(t_sgDevice* pThis, t_floatarg f)
 				t_int value = pThis->buffer[2];
 				output(
 						pThis,
-						gensym("sgDevice.switch"),
+						gensym("switch"),
 						control_id-SWITCHES_CONTROL_ID,
 						value
 				);
@@ -198,7 +198,7 @@ void sgDeviceOnInput(t_sgDevice* pThis, t_floatarg f)
 			{
 				output(
 						pThis,
-						gensym("sgDevice.meta"),
+						gensym("meta"),
 						control_id-META_CONTROL_ID,
 						1
 				);
@@ -213,7 +213,7 @@ void sgDeviceOnInput(t_sgDevice* pThis, t_floatarg f)
 				t_int value = pThis->buffer[2];
 				output(
 						pThis,
-						gensym("sgDevice.analog"),
+						gensym("analog"),
 						control_id-ANALOG_CONTROL_ID,
 						((float )value)/ANALOG_MIDI_RES
 				);
@@ -228,7 +228,7 @@ void sgDeviceOnInput(t_sgDevice* pThis, t_floatarg f)
 				t_int value = (pThis->buffer[2] << 7) + pThis->buffer[5];
 				output(
 						pThis,
-						gensym("sgDevice.analog"),
+						gensym("analog"),
 						control_id-ANALOG_CONTROL_ID,
 						((float )value)/ANALOG_MIDI_RES
 				);
@@ -250,10 +250,20 @@ void output(
 		t_float val
 )
 {
+	const int count = 3;
+	t_atom list[count];
+	SETSYMBOL(&list[0], package_name);
+	SETFLOAT(&list[1], index);
+	SETFLOAT(&list[2], val);
+	outlet_list(
+		pThis->outlet,
+		&s_list,
+		count,
+		list
+	);
+
+	/*
 	//sgDevice.analog ( index ( i ) value ( val ) )
-	/*char strBuf[256];
-	sprintf(strBuf, "outputAnalog(,%i,%i)",index,val);
-	post(strBuf);*/
 	t_atom list[8];
 	SETSYMBOL(&list[0], package_name);
 	SETFLOAT(&list[1], 6);
@@ -263,11 +273,12 @@ void output(
 	SETSYMBOL(&list[5], gensym("value"));
 	SETFLOAT(&list[6], 1);
 	SETFLOAT(&list[7], val );
-	
+
 	outlet_list(
 		pThis->outlet,
 		&s_list,
 		8,
 		list
 	);
+	*/
 }
