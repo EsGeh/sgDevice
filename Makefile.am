@@ -14,7 +14,8 @@ datadir = $(prefix)
 # list of all products:
 lib_LTLIBRARIES = sgDevice.la
 data_DATA = \
-	$(PATH_PD_OBJS)/sgDevice-help.pd
+	$(PATH_PD_OBJS)/sgDevice-help.pd \
+	$(PATH_PD_OBJS)/sgDevice_obj.pd
 
 sgDevice_la_SOURCES = \
   $(PATH_CODE)/sgDevice.c $(PATH_CODE)/sgDevice.h
