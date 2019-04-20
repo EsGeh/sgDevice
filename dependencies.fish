@@ -24,5 +24,5 @@ set ttymidi \
 set structuredData \
 	structuredData \
 	https://github.com/EsGeh/structuredData.git \
-	7721e44f2b1b51b505edbd9623d8e76a4052363f \
+	2f712db19abbc071a40c2d102cdaef0c22a1790a \
 	"scripts/init.fish --deps-dir \$DEP_DIR"
