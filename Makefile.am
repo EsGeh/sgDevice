@@ -15,7 +15,14 @@ datadir = $(prefix)
 lib_LTLIBRARIES = sgDevice.la
 data_DATA = \
 	$(PATH_PD_OBJS)/sgDevice-help.pd \
-	$(PATH_PD_OBJS)/sgDevice_obj.pd
+	$(PATH_PD_OBJS)/sgDeviceEvents.pd \
+	$(PATH_PD_OBJS)/sgDevice_obj.pd \
+	$(PATH_PD_OBJS)/sgDeviceModes_obj.pd \
+	$(PATH_PD_OBJS)/sgDeviceModes_ui.pd \
+	$(PATH_PD_OBJS)/sdKeyboardEvents.pd \
+	$(PATH_PD_OBJS)/sdKeyboard_obj.pd \
+	$(PATH_PD_OBJS)/sdKeyboardModes_obj.pd \
+	$(PATH_PD_OBJS)/sdKeyboardModes_ui.pd
 
 sgDevice_la_SOURCES = \
   $(PATH_CODE)/sgDevice.c $(PATH_CODE)/sgDevice.h

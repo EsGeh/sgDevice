@@ -1,0 +1,8 @@
+#N canvas 0 30 762 722 10;
+#X obj 83 91 sdObjState \$1 \$2;
+#X obj 40 23 inlet;
+#X obj 184 122 outlet;
+#X obj 176 56 sdKeyboardEvents;
+#X connect 0 2 2 0;
+#X connect 1 0 0 0;
+#X connect 3 0 0 2;

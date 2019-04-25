@@ -1,12 +1,11 @@
-#N canvas 0 30 681 722 10;
-#X obj 155 696 sdObjExample \$0-instr \$0-GLOBAL;
-#X obj 44 78 sgDevice_obj sgDev \$0-GLOBAL;
-#N canvas 0 30 1598 543 simple 0;
+#N canvas 0 30 762 722 10;
+#X obj 122 612 sdObjExample \$0-instr \$0-GLOBAL;
+#N canvas 0 30 762 722 simple 0;
 #X obj 133 10 midiin;
 #X obj 133 35 sgDevice;
 #X obj 133 60 list trim;
 #X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9525 1;
+-1 -1 0 1;
 #X floatatom 50 550 5 0 0 0 - - -;
 #X obj 148 259 route 0 1 2 3 4 5;
 #X obj 48 668 throw~ out, f 7;
@@ -56,17 +55,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 10706 1;
+-1 -1 0 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 89 1;
+-1 -1 0 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 1105 1;
+-1 -1 0 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 7264 1;
+-1 -1 0 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -406,58 +405,238 @@
 #X connect 70 0 17 0;
 #X connect 70 1 71 0;
 #X connect 71 0 28 0;
-#X restore 632 54 pd simple example;
-#X obj 180 258 sdPackMatch;
-#X text 260 92 trigger -> play;
-#X obj 224 335 print;
-#X obj 262 115 loadbang;
-#X obj 276 388 loadbang;
-#X obj 44 101 s \$0-fromDevice;
-#X obj 131 162 r \$0-fromDevice;
-#X obj 180 281 t a a;
-#X obj 216 306 sdGate;
-#X obj 263 283 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X obj 133 331 s \$0-input;
-#X obj 92 506 r \$0-input;
-#X obj 228 501 sdReplace \$0;
-#X obj 141 582 sdUnPack;
-#X obj 141 628 send;
-#X msg 265 138 clear \, add_script play ( trigger ( index ( ?index
-) ) ) ( Print ( Pack ( play Pack ( pitch $ ( index ) ) ) ) Out ( list
-) ) \, add_script volume ( analog ( * index ( 0 ) value ( ?value )
-) ) ( Print ( Pack ( volume $ ( value ) ) ) Out ( list ) ) \, add_script
-bend ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack (
-bend $ ( value ) ) ) Out ( list ) );
-#X obj 264 586 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X restore 578 29 pd simple example;
+#X obj 132 381 loadbang;
+#X obj 34 397 r \$0-input;
+#X obj 83 495 sdUnPack;
+#X obj 83 519 send;
+#X obj 112 436 sdPackMatch volume;
+#X text 231 438 <- global var to remember current "volume";
+#X obj 577 95 loadbang;
+#X obj 577 141 s \$0-GLOBAL;
+#X msg 577 118 list init 0;
+#X obj 525 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 170 545 sdPackMatch volume;
-#X text 289 547 <- global var to remember current "volume";
-#X obj 184 638 print;
-#X obj 184 616 sdGate;
-#X obj 231 593 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
-1;
-#X msg 276 412 clear \, add_script play_to_instr ( play ( args#[ *
-#] ) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume
+#N canvas 0 30 762 722 modes 0;
+#X obj 114 320 sdPackFromHuman;
+#X msg 99 223 list play ( #[ ( trigger ( index ( ?index ) ) ) ( Print
+( Pack ( play Pack ( pitch $ ( index ) ) ) ) Out ( list ) ) #] ) volume
+( #[ ( analog ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack (
+volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index
+( 1 ) value ( ?value ) ) ) ( Print ( Pack ( bend $ ( value ) ) ) Out
+( list ) ) #] );
+#X obj 106 110 t b b;
+#X obj 114 343 sdPack modei;
+#X obj 266 65 t b b;
+#X msg 733 209 clear;
+#X obj 114 367 sdSetSelector append;
+#X obj 198 518 outlet;
+#X obj 70 18 inlet;
+#X obj 198 429 sdData;
+#X obj 70 41 t b b;
+#X obj 50 375 t b;
+#X obj 198 475 sdPack set;
+#X obj 198 452 sdPack modes;
+#X msg 133 132 list out_vol ( #[ ( analog ( * index ( 0 ) value ( ?value
+) ) ) ( Print ( Pack ( out_volume $ ( value ) ) ) Out ( list ) ) #]
+) out_reverb ( #[ ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print
+( Pack ( out_reverb $ ( value ) ) ) Out ( list ) ) #] );
+#X connect 0 0 3 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 2 1 14 0;
+#X connect 3 0 6 0;
+#X connect 4 0 2 0;
+#X connect 4 1 5 0;
+#X connect 5 0 9 0;
+#X connect 6 0 9 0;
+#X connect 8 0 10 0;
+#X connect 9 0 13 0;
+#X connect 10 0 11 0;
+#X connect 10 1 4 0;
+#X connect 11 0 9 0;
+#X connect 12 0 7 0;
+#X connect 13 0 12 0;
+#X connect 14 0 0 0;
+#X restore 564 337 pd modes;
+#X obj 19 222 s \$0-input;
+#X obj 534 551 r \$0-out;
+#N canvas 0 30 762 722 <event> 0;
+#X obj 104 274 sdReplace \$0;
+#X obj 89 29 inlet;
+#X obj 104 297 outlet;
+#X msg 112 105 clear \, add_script play_to_instr ( play ( args=[ *
+=] ) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume
 $ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume
-( ?vol ) ) ( = ( volume $ ( vol ) ) );
-#X connect 1 0 8 0;
-#X connect 3 0 10 0;
-#X connect 6 0 18 0;
-#X connect 7 0 25 0;
-#X connect 9 0 3 0;
-#X connect 10 0 13 0;
-#X connect 10 1 11 0;
-#X connect 11 0 5 0;
-#X connect 12 0 11 1;
-#X connect 14 0 20 0;
-#X connect 15 0 20 0;
-#X connect 16 0 17 0;
-#X connect 16 0 23 0;
-#X connect 16 2 17 1;
-#X connect 18 0 3 0;
-#X connect 20 0 16 0;
-#X connect 20 1 19 0;
-#X connect 23 0 22 0;
-#X connect 24 0 23 1;
-#X connect 25 0 15 0;
+( ?vol ) ) ( = ( volume $ ( vol ) ) ) \, add_script out_vol ( out_volume
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol Pack ( volume
+$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_rev ( out_reverb
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_rev Pack ( reverb
+$ ( any ) ) ) ) ) Out ( list ) ) );
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 3 0 0 0;
+#X restore 132 404 pd <event> -> <dest> ( <event> );
+#N canvas 0 30 762 722 out 0;
+#X obj 315 49 sdEventToProperties;
+#X obj 426 72 sdProperty volume \$0;
+#X obj 105 124 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 46 75 r \$0-volume;
+#X obj 315 26 inlet;
+#X floatatom 105 196 5 0 0 0 - - -;
+#X obj 543 95 sdProperty reverb \$0;
+#X obj 145 124 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X floatatom 145 196 5 0 0 0 - - -;
+#X obj 145 58 r \$0-reverb;
+#X connect 0 1 1 0;
+#X connect 1 1 6 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X connect 7 0 8 0;
+#X connect 9 0 7 0;
+#X coords 0 -1 1 1 85 120 1 100 100;
+#X restore 534 574 pd out;
+#X text 415 235 default mode: send control events;
+#N canvas 0 30 762 722 modes 0;
+#X obj 114 238 sdPackFromHuman;
+#X obj 122 377 sdPack modei;
+#X obj 247 49 t b b, f 36;
+#X msg 616 210 clear;
+#X obj 122 401 sdSetSelector append;
+#X obj 205 641 outlet;
+#X obj 17 10 inlet;
+#X obj 205 552 sdData;
+#X obj 17 33 t b b;
+#X obj 50 375 t b;
+#X obj 205 598 sdPack set;
+#X obj 205 575 sdPack modes;
+#X msg 114 188 list out_vol ( #[ ( key ( * symbol ( \$1 ) value ( 1
+) ) ) ( Print ( Pack ( play Pack ( pitch \$2 ) ) ) Out ( list ) ) #]
+);
+#X obj 114 165 pack s f;
+#X msg 114 129 a 0 \, s 2 \, d 4 \, f 5 \, g 7 \, h 9 \, j 11 \, k
+12 \, w 1 \, e 3 \, t 6 \, z 8 \, u 10;
+#X obj 122 354 sdData;
+#X msg 519 225 clear;
+#X obj 76 94 t b b b, f 66;
+#X obj 81 67 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X connect 0 0 15 1;
+#X connect 1 0 4 0;
+#X connect 2 0 17 0;
+#X connect 2 1 3 0;
+#X connect 3 0 7 0;
+#X connect 4 0 7 0;
+#X connect 6 0 8 0;
+#X connect 7 0 11 0;
+#X connect 8 0 9 0;
+#X connect 8 1 2 0;
+#X connect 9 0 7 0;
+#X connect 10 0 5 0;
+#X connect 11 0 10 0;
+#X connect 12 0 0 0;
+#X connect 13 0 12 0;
+#X connect 14 0 13 0;
+#X connect 15 0 1 0;
+#X connect 16 0 15 0;
+#X connect 17 0 15 0;
+#X connect 17 1 14 0;
+#X connect 17 2 16 0;
+#X connect 18 0 17 0;
+#X restore 525 384 pd modes;
+#X obj 525 407 s Keyboard;
+#X text 11 8 simple "sgDevice" obj sending ctrl events;
+#X text 18 344 example how to redirect events from input devices to
+instruments or other objects;
+#X text 430 249 you can set other "modes" to send specific events \,
+like "output volume" \, "play note" \, ..., f 44;
+#X text 109 223 you can step through modes using the "meta" triggers
+(if there are multiple modes), f 25;
+#X text 11 138 the "sgDevice" with "modes";
+#X text 8 328 (optional intermediate step):;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 20 54 pd;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 318 54 pd;
+#X obj 266 207 s \$0-input;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 83 468 pd;
+#X obj 266 156 sdKeyboardModes_ui Keyboard \$0-GLOBAL;
+#X obj 190 383 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 525 318 t b b;
+#X text 542 293 set advanced modes;
+#X text 305 5 same for (computer) keyboard...;
+#X floatatom 266 113 5 0 0 0 - - -;
+#X msg 266 134 list set 3 mode 1 \$1;
+#X obj 20 31 sgDevice_obj sgDev_raw \$0-GLOBAL;
+#X obj 318 32 sdKeyboard_obj Keyb_raw \$0-GLOBAL;
+#X obj 19 157 sgDeviceModes_ui sgDevice \$0-GLOBAL;
+#X obj 564 361 s sgDevice;
+#X connect 2 0 15 0;
+#X connect 3 0 6 0;
+#X connect 4 0 5 0;
+#X connect 4 2 5 1;
+#X connect 6 0 29 0;
+#X connect 8 0 10 0;
+#X connect 10 0 9 0;
+#X connect 11 0 32 0;
+#X connect 12 0 40 0;
+#X connect 14 0 16 0;
+#X connect 15 0 6 0;
+#X connect 18 0 19 0;
+#X connect 29 0 4 0;
+#X connect 30 0 28 0;
+#X connect 31 0 15 0;
+#X connect 32 0 18 0;
+#X connect 32 1 12 0;
+#X connect 35 0 36 0;
+#X connect 36 0 30 0;
+#X connect 37 0 26 0;
+#X connect 38 0 27 0;
+#X connect 39 0 13 0;
