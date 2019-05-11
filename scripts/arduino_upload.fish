@@ -17,6 +17,7 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 
 set usb_dev /dev/ttyACM0
 set dev_version 2
+set temp_dir "$BASE_DIR/arduino-tempdir"
 
 # (syntax: short/long/description)
 set options_descr \
@@ -63,7 +64,6 @@ if test $dev_version -eq 1
 	arduino --upload "$BASE_DIR/src/arduino/sgDevice/sgDevice.ino"
 else if test "$dev_version" -eq "2"
 	echo "connected boards: "
-	set temp_dir "$BASE_DIR/arduino-tempdir"
 	mkdir -p "$temp_dir"
 	and arduino-cli board list
 	and echo "compiling: "
