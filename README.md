@@ -7,6 +7,7 @@ software utilities to use my homemade midi input device with puredata
 - fish shell
 - autotools
 - arduino
+- arduino-cli
 
 ## Run Dependencies
 

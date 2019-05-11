@@ -1,6 +1,7 @@
 /dependencies/
 /build/
 /doc/
+/arduino-tempdir/
 
 # autotools:
 
