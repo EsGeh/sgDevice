@@ -57,6 +57,10 @@ software utilities to use my homemade midi input device with puredata
 
 	(manuall adjust the numbering!)
 
+## Debug serial communication
+
+	$ ./scripts/arduino_usbdump.fish
+
 ## Documentation
 
 ### init docu
