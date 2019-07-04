@@ -86,6 +86,7 @@ class Buttons
 		unsigned int pin0;
 		unsigned int count;
 		unsigned int control_id;
+		boolean invert;
 	public:
 		boolean* value;
 	// methods:
@@ -93,12 +94,14 @@ class Buttons
 		Buttons(
 			const unsigned int pin0,
 			const unsigned int count,
-			const unsigned int control_id
+			const unsigned int control_id,
+			const bool invert = false
 		)
 			:pin0(pin0),
 			count(count),
 			control_id(control_id),
-			value(NULL)
+			value(NULL),
+			invert(invert)
 		{
 			value = new boolean[count];
 			for (int i=0; i<count ; i++)
@@ -122,15 +125,18 @@ class Buttons
 		{
 			for (int i=0; i< count ; i++)
 			{
-				if(digitalRead(pin0+i)!= value[i])
+				bool new_val = digitalRead(pin0+i);
+				bool logical_value =
+					(!invert) ? new_val : (!new_val);
+				if( logical_value != value[i])
 				{
-					value[i]=!value[i];
+					value[i] = logical_value;
 					#ifdef DEBUG_PRINT
-						Serial.println(String("Buttons: pin") + String(pin0+i) + String("] = " + String((unsigned int )value[i])));
+						Serial.println(String("Buttons: pin") + String(pin0+i) + String("] = " + String((unsigned int )logical_value));
 					#else
 						Serial.write( 0xB0 );
 						Serial.write( control_id + i );
-						Serial.write((byte ) value[i]);
+						Serial.write( ((byte )127) * ((byte )logical_value));
 					#endif
 				}
 			}
@@ -190,12 +196,14 @@ Buttons switches(
 Buttons triggers(
 	PIN_TRIGGERS,
 	TRIGGERS_COUNT,
-	TRIGGERS_CONTROL_ID
+	TRIGGERS_CONTROL_ID,
+	true // invert
 );
 Buttons meta(
 	PIN_META,
 	META_COUNT,
-	META_CONTROL_ID
+	META_CONTROL_ID,
+	true // invert
 );
 
 void setup() {

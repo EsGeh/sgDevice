@@ -6,7 +6,8 @@
 // baud rates:
 /////////////////////////////
 #define MIDI_RATE 31250
-#define PC_RATE 9600
+#define PC_RATE 31250
+// (according to MIDI specification)
 
 /////////////////////////////
 // control id in MIDI messages:
