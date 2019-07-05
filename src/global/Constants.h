@@ -29,7 +29,8 @@
 #define META_COUNT 2
 
 #define PIN_TRIGGER_OR_SWITCH 10
-#define TOG_COUNT 6
+#define TRIGGERS_COUNT 6
+#define SWITCHES_COUNT 6
 #define PIN_TOG_0 4
 
 #define TRIGGER_PRESSED 0
