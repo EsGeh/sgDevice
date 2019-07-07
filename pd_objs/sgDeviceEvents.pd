@@ -1,20 +1,29 @@
-#N canvas 0 30 803 722 10;
-#X obj 89 213 sgDevice;
-#X obj 89 189 midiin;
+#N canvas 0 30 681 722 10;
+#X obj 89 159 midiin;
 #X obj 96 446 loadbang;
-#N canvas 0 30 803 722 msg->event 0;
+#N canvas 0 30 681 722 msg->event 0;
 #X obj 60 675 outlet;
 #X obj 263 161 inlet;
-#X msg 276 282 clear \, add trigger trigger ?index 1 \, add switch
+#X msg 276 282 clear \, add trigger trigger ?index ?value \, add switch
 switch ?index ?value \, add analog analog ?index ?value \, add meta
-meta ?index 1;
+meta ?index ?value;
 #X connect 1 0 2 0;
 #X connect 2 0 0 0;
 #X restore 96 476 pd msg->event;
 #X obj 60 506 sdPackMatch;
 #X obj 60 529 outlet;
-#X connect 0 0 4 0;
-#X connect 1 0 0 0;
+#X obj 89 237 sdGate;
+#X obj 122 191 sdFloatBang \$1;
+#X obj 89 263 sgDevice2;
+#X obj 155 262 sgDevice;
+#X obj 122 214 expr $f1 == 2 || $f1 == 0;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
-#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 5 1 8 0;
+#X connect 6 0 9 0;
+#X connect 7 0 3 0;
+#X connect 8 0 3 0;
+#X connect 9 0 5 1;

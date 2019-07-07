@@ -17,7 +17,7 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 
 set mode ascii
 set usb_dev /dev/ttyACM0
-set baud_rate (cat "$BASE_DIR/src/global/Constants.h" | grep '^#define PC_RATE' | cut -d' ' -f3)
+set baud_rate (cat "$BASE_DIR/src/global/Constants_ver2.h" | grep '^#define PC_RATE' | cut -d' ' -f3)
 # set baud_rate 38400
 # set baud_rate 9600
 

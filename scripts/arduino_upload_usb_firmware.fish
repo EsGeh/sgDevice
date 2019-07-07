@@ -1,7 +1,11 @@
 #!/bin/fish
+#
+# script is based on this manual site:
+# https://www.arduino.cc/en/Hacking/DFUProgramming8U2
 
 set BASE_DIR (dirname (readlink -m (status filename)))/..
 set SCRIPTS_DIR (dirname (readlink -m (status filename)))
+set DEP_DIR "$BASE_DIR/dependencies"
 
 if test ! -e $SCRIPTS_DIR/utils/cmd_args.fish
 	echo "error: fishshell-cmd-opts not installed!"
@@ -17,13 +21,12 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 
 set usb_dev /dev/ttyACM0
 set dev_version 2
-set temp_dir "$BASE_DIR/bin"
+set temp_dir "$BASE_DIR/arduino-tempdir"
 
 # (syntax: short/long/description)
 set options_descr \
 	'h/help/print help' \
 	"d/dev=/usb device. default: $usb_dev" \
-	"v/dev-ver=/sgDevice version. default: $dev_version"
 
 #################################################
 # functions
@@ -31,10 +34,10 @@ set options_descr \
 
 function print_help
 	echo "usage: "(status -f)" [OPTIONS...] [CMD...]"
-	echo "  compile and upload the software to the sgDevice"
-	echo "  notes for sgDevice_ver2:"
-	echo "    if the usb firmware you might have to"
-	echo "    enable default mode by setting a jumper first"
+	echo "  upload alternative usb firmware turning the device"
+	echo "  into a native MIDI device."
+	echo "  Procedure is based on"
+	echo "    https://www.arduino.cc/en/Hacking/DFUProgramming8U2"
 	echo "OPTIONS:"
 	print_options_descr $options_descr
 end
@@ -63,10 +66,35 @@ else
 	end
 end
 
-if test $dev_version -eq 1
-	arduino --upload "$BASE_DIR/src/arduino/sgDevice/sgDevice.ino"
-else if test "$dev_version" -eq "2"
-	echo "1. switch device to USB mode:"
+begin
+	echo "1. delete the old bootloader:"
+	echo "next to the USB connector, connect the reset pin to ground"
+	echo
+	echo " --- direction the USB ---"
+	echo "O--O"
+	echo "    "
+	echo "x  x"
+	echo "    "
+	echo "x  x"
+	echo
+	echo "wait a few seconds, then remove the jumper"
+	read -P "done? (press any key to continue)..."
+	echo "2. program the chip"
+	set cmd "dfu-programmer atmega16u2 erase"
+	echo "executing: '$cmd'..."
+	eval "$cmd"
+	set cmd "dfu-programmer atmega16u2 flash $DEP_DIR/USBMidiKliK/USBMidiKliK_dual_mega.hex"
+	echo "executing: '$cmd'..."
+	eval "$cmd"
+	set cmd "dfu-programmer atmega16u2 reset"
+	echo "executing: '$cmd'..."
+	eval "$cmd"
+	echo "3. unplug the device and plug it back in"
+	read -P "done? (press any key to continue)..."
+	echo "done."
+	echo "The device is a MIDI device now."
+	echo "To switch the device back to default USB mode"
+	echo "in order to upload programs,"
 	echo "set a jumper next to the USB connector:"
 	echo
 	echo " --- direction the USB ---"
@@ -76,17 +104,5 @@ else if test "$dev_version" -eq "2"
 	echo "    "
 	echo "x  x"
 	echo
-	echo "unplug, plug it back in..."
-	read -P "done? (press any key to continue)..."
-	mkdir -p "$temp_dir"
-	echo "connected boards: "
-	and arduino-cli board list
-	and echo "compiling: "
-	cd "$temp_dir"
-	and arduino-cli compile --fqbn arduino:avr:mega --output "sgDevice_ver2" "$BASE_DIR/src/arduino/sgDevice_ver2"
-	and arduino-cli upload --fqbn arduino:avr:mega --input "sgDevice_ver2" --port $usb_dev "$BASE_DIR/src/arduino/sgDevice_ver2"
-	cd -
-else
-	echo "unknown device version"
-	exit 1
+
 end

@@ -1,8 +1,8 @@
-#N canvas 0 30 803 722 10;
-#X obj 251 142 sdObjState \$1 \$2;
+#N canvas 0 30 681 722 10;
 #X obj 99 36 inlet;
 #X obj 352 173 outlet;
-#X obj 344 107 sgDeviceEvents;
-#X connect 0 2 2 0;
-#X connect 1 0 0 0;
-#X connect 3 0 0 2;
+#X obj 251 142 sdObjState \$1 \$2;
+#X obj 344 107 sgDeviceEvents \$3;
+#X connect 0 0 2 0;
+#X connect 2 2 1 0;
+#X connect 3 0 2 2;

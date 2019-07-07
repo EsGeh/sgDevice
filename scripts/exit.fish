@@ -14,3 +14,4 @@ rm -v -r build-aux
 rm -v configure
 rm -v Makefile.in
 rm -r build
+rm -r "$BASE_DIR/bin"

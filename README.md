@@ -7,6 +7,7 @@ software utilities to use my homemade midi input device with puredata
 - fish shell
 - autotools
 - arduino
+- arduino-cli
 
 ## Run Dependencies
 
@@ -27,11 +28,21 @@ software utilities to use my homemade midi input device with puredata
 
 ## Build and Install
 
+- turn the Arduino into a native MIDI device:
+
+	plug the device in the PC via USB, then run:
+
+		$ ./scripts/arduino_upload_usb_firmware.fish
+
+	(the script will guide you)
+
 - build and install the software on sgDevice (arduino part):
 
 	plug the device in the PC via USB, then run:
 
 		$ ./scripts/arduino_upload.fish
+
+	(the script will guide you)
 
 - build and install the PC part (puredata library):
 

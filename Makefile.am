@@ -25,6 +25,12 @@ data_DATA = \
 	$(PATH_PD_OBJS)/sdKeyboardModes_ui.pd
 
 sgDevice_la_SOURCES = \
-  $(PATH_CODE)/sgDevice.c $(PATH_CODE)/sgDevice.h
+  $(PATH_CODE)/sgDevice.c $(PATH_CODE)/sgDevice.h \
+  $(PATH_CODE)/sgDevice_impl.c $(PATH_CODE)/sgDevice_impl.h \
+  $(PATH_CODE)/sgDevice2_impl.c $(PATH_CODE)/sgDevice2_impl.h \
+  $(PATH_CODE)/sgDevice_template.h \
+  $(PATH_GLOBAL)/Global.h \
+  $(PATH_GLOBAL)/Constants.h \
+  $(PATH_GLOBAL)/Constants_ver2.h
 
 sgDevice_la_LDFLAGS = -module
