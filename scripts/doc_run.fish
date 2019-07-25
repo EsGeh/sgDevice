@@ -122,6 +122,6 @@ else
 		-send "dev_version $dev_version" \
 		"$doc_dir/sgDevice-help.pd" &
 	sleep 1
-	and aconnect 'USB MidiKliK Build-1094' 'Pure Data'
+	and aconnect 'sgDevice 2' 'Pure Data'
 	wait
 end
