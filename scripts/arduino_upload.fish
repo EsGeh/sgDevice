@@ -69,7 +69,7 @@ else if test "$dev_version" -eq "2"
 	echo "1. switch device to USB mode:"
 	echo "set a jumper next to the USB connector:"
 	echo
-	echo " --- direction the USB ---"
+	echo " --- direction of the USB ---"
 	echo "O  x"
 	echo "|   "
 	echo "O  x"

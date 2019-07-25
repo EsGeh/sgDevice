@@ -32,7 +32,7 @@ end
 
 if [ "$argv[1]" = "-h" ]; or [ "$argv[1]" = "--help" ]
 	print_help
-	exit 1
+	exit
 end
 
 if test (count $argv) != 0

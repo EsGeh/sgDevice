@@ -70,7 +70,7 @@ begin
 	echo "1. delete the old bootloader:"
 	echo "next to the USB connector, connect the reset pin to ground"
 	echo
-	echo " --- direction the USB ---"
+	echo " --- direction of the USB ---"
 	echo "O--O"
 	echo "    "
 	echo "x  x"
@@ -97,7 +97,7 @@ begin
 	echo "in order to upload programs,"
 	echo "set a jumper next to the USB connector:"
 	echo
-	echo " --- direction the USB ---"
+	echo " --- direction of the USB ---"
 	echo "O  x"
 	echo "|   "
 	echo "O  x"
