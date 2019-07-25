@@ -1,8 +1,7 @@
-#N canvas 0 30 762 722 10;
+#N canvas 0 30 844 722 10;
 #X obj 46 29 nbx 2 14 0 1e+37 0 0 \$0-mode \$0-mode_rcv empty 0 -8
 0 10 -262144 -1 -1 0 256;
 #X text 10 27 mode:;
-#X obj 401 91 sgDeviceModes_obj \$1 \$2;
 #X obj 293 267 sdPackFilter mode;
 #X obj 293 290 sdUnPack;
 #X obj 293 313 s \$0-mode_rcv;
@@ -11,7 +10,7 @@
 #X obj 246 212 t a a;
 #X obj 246 235 outlet;
 #X obj 12 58 tgl 10 0 \$0-print_msgs empty empty 17 7 0 10 -262144
--1 -1 1 1;
+-1 -1 0 1;
 #X text 23 54 print msgs;
 #X obj 304 189 r \$0-print_msgs;
 #N canvas 0 30 762 722 print 0;
@@ -29,14 +28,14 @@
 #X coords 0 722 1 721 27 19 0;
 #X restore 246 189 pd print;
 #X obj 100 31 vsl 15 32 0 1 0 0 empty \$0-ana0_rcv empty 0 -9 0 10
--262144 -1 -1 0 1;
+-262144 -1 -1 24 1;
 #X obj 574 224 sdPackFilter analog;
 #X obj 574 247 sdUnEvent value index;
 #X obj 574 328 send;
 #X obj 635 294 sdReplace \$0;
 #X msg 635 271 list %0-ana\$1_rcv;
 #X obj 120 31 vsl 15 32 0 1 0 0 empty \$0-ana1_rcv empty 0 -9 0 10
--262144 -1 -1 0 1;
+-262144 -1 -1 24 1;
 #X obj 140 31 vsl 15 32 0 1 0 0 empty \$0-ana2_rcv empty 0 -9 0 10
 -262144 -1 -1 0 1;
 #X obj 160 31 vsl 15 32 0 1 0 0 empty \$0-ana3_rcv empty 0 -9 0 10
@@ -46,7 +45,7 @@
 #X obj 200 31 vsl 15 32 0 1 0 0 empty \$0-ana5_rcv empty 0 -9 0 10
 -262144 -1 -1 0 1;
 #X obj 12 46 tgl 10 0 \$0-print_raw empty empty 17 7 0 10 -262144 -1
--1 0 1;
+-1 1 1;
 #X text 23 42 print raw;
 #N canvas 0 30 762 722 print 0;
 #X obj 67 163 print;
@@ -65,23 +64,24 @@
 #X obj 578 145 r \$0-print_raw;
 #X obj 520 168 t a a;
 #X obj 488 215 outlet;
-#X connect 2 0 13 0;
-#X connect 2 1 27 0;
+#X obj 401 91 sgDeviceModes_obj \$1 \$2 \$3;
+#X connect 2 0 3 0;
 #X connect 3 0 4 0;
-#X connect 4 0 5 0;
-#X connect 6 0 3 0;
-#X connect 7 0 2 0;
-#X connect 8 0 9 0;
-#X connect 8 1 6 0;
-#X connect 12 0 13 1;
-#X connect 13 0 8 0;
+#X connect 5 0 2 0;
+#X connect 6 0 30 0;
+#X connect 7 0 8 0;
+#X connect 7 1 5 0;
+#X connect 11 0 12 1;
+#X connect 12 0 7 0;
+#X connect 14 0 15 0;
 #X connect 15 0 16 0;
-#X connect 16 0 17 0;
-#X connect 16 1 19 0;
-#X connect 18 0 17 1;
-#X connect 19 0 18 0;
-#X connect 27 0 29 0;
-#X connect 28 0 27 1;
-#X connect 29 0 30 0;
-#X connect 29 1 15 0;
+#X connect 15 1 18 0;
+#X connect 17 0 16 1;
+#X connect 18 0 17 0;
+#X connect 26 0 28 0;
+#X connect 27 0 26 1;
+#X connect 28 0 29 0;
+#X connect 28 1 14 0;
+#X connect 30 0 12 0;
+#X connect 30 1 26 0;
 #X coords 0 -1 1 1 210 60 1 10 10;

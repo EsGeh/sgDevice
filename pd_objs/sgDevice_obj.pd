@@ -1,8 +1,14 @@
-#N canvas 0 30 681 722 10;
+#N canvas 0 30 844 345 10;
 #X obj 99 36 inlet;
 #X obj 352 173 outlet;
 #X obj 251 142 sdObjState \$1 \$2;
 #X obj 344 107 sgDeviceEvents \$3;
+#X obj 351 50 inlet;
+#X obj 256 242 sdProperty version \$0;
+#X obj 405 78 r \$0-version;
 #X connect 0 0 2 0;
+#X connect 2 1 5 0;
 #X connect 2 2 1 0;
 #X connect 3 0 2 2;
+#X connect 4 0 3 0;
+#X connect 6 0 3 0;

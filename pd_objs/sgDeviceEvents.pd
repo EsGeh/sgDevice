@@ -1,4 +1,4 @@
-#N canvas 0 30 681 722 10;
+#N canvas 0 30 844 722 10;
 #X obj 89 159 midiin;
 #X obj 96 446 loadbang;
 #N canvas 0 30 681 722 msg->event 0;
@@ -17,6 +17,7 @@ meta ?index ?value;
 #X obj 89 263 sgDevice2;
 #X obj 155 262 sgDevice;
 #X obj 122 214 expr $f1 == 2 || $f1 == 0;
+#X obj 196 165 inlet;
 #X connect 0 0 5 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -27,3 +28,4 @@ meta ?index ?value;
 #X connect 7 0 3 0;
 #X connect 8 0 3 0;
 #X connect 9 0 5 1;
+#X connect 10 0 6 0;

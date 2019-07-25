@@ -1,6 +1,6 @@
-#N canvas 0 30 721 722 10;
+#N canvas 0 30 844 722 10;
 #X obj 122 612 sdObjExample \$0-instr \$0-GLOBAL;
-#N canvas 0 30 721 722 simple 0;
+#N canvas 0 30 844 722 simple 0;
 #X obj 133 10 midiin;
 #X obj 133 60 list trim;
 #X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
@@ -54,17 +54,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 8471 1;
+-1 -1 0 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 7747 1;
+-1 -1 0 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 8179 1;
+-1 -1 0 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2045 1;
+-1 -1 0 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -412,9 +412,9 @@
 #X obj 83 519 send;
 #X obj 112 436 sdPackMatch volume;
 #X text 231 438 <- global var to remember current "volume";
-#X obj 577 95 loadbang;
-#X obj 577 141 s \$0-GLOBAL;
-#X msg 577 118 list init 0;
+#X obj 688 62 loadbang;
+#X obj 688 108 s \$0-GLOBAL;
+#X msg 688 85 list init 0;
 #X obj 525 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #N canvas 0 30 721 722 modes 0;
@@ -636,9 +636,23 @@ like "output volume" \, "play note" \, ..., f 44;
 #X floatatom 266 113 5 0 0 0 - - -;
 #X msg 266 134 list set 3 mode 1 \$1;
 #X obj 318 32 sdKeyboard_obj Keyb_raw \$0-GLOBAL;
-#X obj 19 157 sgDeviceModes_ui sgDevice \$0-GLOBAL;
 #X obj 564 361 s sgDevice;
-#X obj 20 31 sgDevice_obj sgDev_raw \$0-GLOBAL;
+#X obj 20 31 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
+#X obj 19 157 sgDeviceModes_ui sgDevice \$0-GLOBAL 1;
+#N canvas 0 30 844 722 device 0;
+#X text 102 100 device ver.;
+#X floatatom 105 117 5 1 2 0 - - -;
+#X obj 88 312 outlet;
+#X msg 112 212 list set 3 version 1 \$1;
+#X obj 97 41 inlet;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 74 36 2 100 100;
+#X restore 533 133 pd device version;
+#X obj 533 174 s sgDevice;
+#X obj 602 172 s sgDev_raw;
+#X obj 533 111 r dev_version;
 #X connect 2 0 15 0;
 #X connect 3 0 6 0;
 #X connect 4 0 5 0;
@@ -647,7 +661,7 @@ like "output volume" \, "play note" \, ..., f 44;
 #X connect 8 0 10 0;
 #X connect 10 0 9 0;
 #X connect 11 0 32 0;
-#X connect 12 0 39 0;
+#X connect 12 0 38 0;
 #X connect 14 0 16 0;
 #X connect 15 0 6 0;
 #X connect 18 0 19 0;
@@ -659,5 +673,8 @@ like "output volume" \, "play note" \, ..., f 44;
 #X connect 35 0 36 0;
 #X connect 36 0 30 0;
 #X connect 37 0 27 0;
-#X connect 38 0 13 0;
-#X connect 40 0 26 0;
+#X connect 39 0 26 0;
+#X connect 40 0 13 0;
+#X connect 41 0 42 0;
+#X connect 41 0 43 0;
+#X connect 44 0 41 0;
