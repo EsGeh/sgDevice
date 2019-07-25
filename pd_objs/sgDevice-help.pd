@@ -54,17 +54,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 8471 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7747 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 8179 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 2045 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -417,30 +417,34 @@
 #X msg 577 118 list init 0;
 #X obj 525 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#N canvas 0 30 762 722 modes 0;
-#X obj 114 320 sdPackFromHuman;
-#X msg 99 223 list play ( #[ ( trigger ( index ( ?index ) ) ) ( Print
+#N canvas 0 30 721 722 modes 0;
+#X obj 129 400 sdPackFromHuman;
+#X msg 114 303 list play ( #[ ( trigger ( index ( ?index ) ) ) ( Print
 ( Pack ( play Pack ( pitch $ ( index ) ) ) ) Out ( list ) ) #] ) volume
 ( #[ ( analog ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack (
 volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index
 ( 1 ) value ( ?value ) ) ) ( Print ( Pack ( bend $ ( value ) ) ) Out
 ( list ) ) #] );
 #X obj 106 110 t b b;
-#X obj 114 343 sdPack modei;
+#X obj 129 423 sdPack modei;
 #X obj 266 65 t b b;
 #X msg 733 209 clear;
-#X obj 114 367 sdSetSelector append;
-#X obj 198 518 outlet;
+#X obj 129 447 sdSetSelector append;
+#X obj 213 598 outlet;
 #X obj 70 18 inlet;
-#X obj 198 429 sdData;
+#X obj 213 509 sdData;
 #X obj 70 41 t b b;
-#X obj 50 375 t b;
-#X obj 198 475 sdPack set;
-#X obj 198 452 sdPack modes;
+#X obj 65 455 t b;
+#X obj 213 555 sdPack set;
+#X obj 213 532 sdPack modes;
 #X msg 133 132 list out_vol ( #[ ( analog ( * index ( 0 ) value ( ?value
 ) ) ) ( Print ( Pack ( out_volume $ ( value ) ) ) Out ( list ) ) #]
 ) out_reverb ( #[ ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print
-( Pack ( out_reverb $ ( value ) ) ) Out ( list ) ) #] );
+( Pack ( out_reverb $ ( value ) ) ) Out ( list ) ) #] ) out_vol_enable
+( #[ ( switch ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack (
+out_volume_enable $ ( value ) ) ) Out ( list ) ) #] ) out_reverb_enable
+( #[ ( switch ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack (
+out_reverb_enable $ ( value ) ) ) Out ( list ) ) #] );
 #X connect 0 0 3 0;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
@@ -462,9 +466,9 @@ volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index
 #X obj 19 222 s \$0-input;
 #X obj 534 551 r \$0-out;
 #N canvas 0 30 721 722 <event> 0;
-#X obj 104 274 sdReplace \$0;
+#X obj 81 498 sdReplace \$0;
 #X obj 89 29 inlet;
-#X obj 104 297 outlet;
+#X obj 81 521 outlet;
 #X msg 112 105 clear \, add_script play_to_instr ( play ( args=[ *
 =] ) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume
 $ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume
@@ -472,32 +476,49 @@ $ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume
 ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol Pack ( volume
 $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_rev ( out_reverb
 ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_rev Pack ( reverb
-$ ( any ) ) ) ) ) Out ( list ) ) );
+$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_vol_enable ( out_volume_enable
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol_enable Pack
+( volume_enable $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_reverb_enable
+( out_reverb_enable ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack (
+set_reverb_enable Pack ( reverb_enable $ ( any ) ) ) ) ) Out ( list
+) ) );
 #X connect 0 0 2 0;
 #X connect 1 0 3 0;
 #X connect 3 0 0 0;
 #X restore 132 404 pd <event> -> <dest> ( <event> );
-#N canvas 0 30 681 722 out 0;
+#N canvas 0 30 721 722 out 0;
 #X obj 315 49 sdEventToProperties;
 #X obj 426 72 sdProperty volume \$0;
-#X obj 105 124 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+#X obj 105 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
-#X obj 46 75 r \$0-volume;
+#X obj 62 51 r \$0-volume;
 #X obj 315 26 inlet;
-#X floatatom 105 196 5 0 0 0 - - -;
+#X floatatom 105 210 5 0 0 0 - - -;
 #X obj 543 95 sdProperty reverb \$0;
-#X obj 145 124 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+#X obj 145 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
-#X floatatom 145 196 5 0 0 0 - - -;
+#X floatatom 145 210 5 0 0 0 - - -;
 #X obj 145 58 r \$0-reverb;
+#X obj 105 117 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 61 26 r \$0-volume_enable;
+#X obj 145 117 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 205 83 r \$0-reverb_enable;
+#X obj 425 145 sdProperty volume_enable \$0;
+#X obj 542 168 sdProperty reverb_enable \$0;
 #X connect 0 1 1 0;
 #X connect 1 1 6 0;
 #X connect 2 0 5 0;
 #X connect 3 0 2 0;
 #X connect 4 0 0 0;
+#X connect 6 1 14 0;
 #X connect 7 0 8 0;
 #X connect 9 0 7 0;
-#X coords 0 -1 1 1 85 120 1 100 100;
+#X connect 11 0 10 0;
+#X connect 13 0 12 0;
+#X connect 14 1 15 0;
+#X coords 0 -1 1 1 85 130 1 100 100;
 #X restore 534 574 pd out;
 #X text 415 235 default mode: send control events;
 #N canvas 0 30 762 722 modes 0;
