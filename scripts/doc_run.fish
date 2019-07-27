@@ -2,6 +2,7 @@
 
 set BASE_DIR (dirname (readlink -m (status filename)))/..
 set SCRIPTS_DIR (dirname (readlink -m (status filename)))
+set DEP_DIR $BASE_DIR/dependencies
 
 if test ! -e $SCRIPTS_DIR/utils/cmd_args.fish
 	echo "error: fishshell-cmd-opts not installed!"
@@ -93,6 +94,8 @@ if test $dev_version -eq 1
 		-stderr \
 		-midiindev 1 \
 		-noprefs \
+		-path "$DEP_DIR/zexy" \
+		-lib "zexy" \
 		-path "$doc_dir" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
@@ -116,6 +119,9 @@ else
 		-stderr \
 		-midiindev 1 \
 		-noprefs \
+		-path "$DEP_DIR/zexy" \
+		-lib "zexy" \
+		-path "$doc_dir" \
 		-path "$doc_dir" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
