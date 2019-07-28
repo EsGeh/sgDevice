@@ -66,6 +66,20 @@ else
 	end
 end
 
+# compile firmware:
+begin
+	cd "$DEP_DIR/USBMidiKliK"
+	and ./scripts/init.fish
+	and make mega
+	and cd -
+end
+
+
+begin
+	set usb_chip "atmega16u2"
+	set hex_file "$DEP_DIR/USBMidiKliK/USBMidiKliK_dual_mega.hex"
+end
+
 begin
 	echo "1. delete the old bootloader:"
 	echo "next to the USB connector, connect the reset pin to ground"
@@ -80,13 +94,13 @@ begin
 	echo "wait a few seconds, then remove the jumper"
 	read -P "done? (press any key to continue)..."
 	echo "2. program the chip"
-	set cmd "dfu-programmer atmega16u2 erase"
+	set cmd "dfu-programmer $usb_chip erase"
 	echo "executing: '$cmd'..."
 	eval "$cmd"
-	set cmd "dfu-programmer atmega16u2 flash $DEP_DIR/USBMidiKliK/USBMidiKliK_dual_mega.hex"
+	set cmd "dfu-programmer $usb_chip flash $hex_file"
 	echo "executing: '$cmd'..."
 	eval "$cmd"
-	set cmd "dfu-programmer atmega16u2 reset"
+	set cmd "dfu-programmer $usb_chip reset"
 	echo "executing: '$cmd'..."
 	eval "$cmd"
 	echo "3. unplug the device and plug it back in"

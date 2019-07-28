@@ -26,8 +26,7 @@ set ttymidi \
 set usbmidiklik \
 	USBMidiKliK \
 	https://github.com/EsGeh/USBMidiKliK.git \
-	5e651a7f983da5c316862e2b3869a73cc0e75cc3 \
-	"scripts/init.fish; and make mega"
+	5e651a7f983da5c316862e2b3869a73cc0e75cc3
 
 set structuredData \
 	structuredData \
