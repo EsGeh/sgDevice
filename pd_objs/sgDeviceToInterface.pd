@@ -1,0 +1,87 @@
+#N canvas 683 30 681 118 10;
+#X obj 37 37 inlet;
+#X obj 37 60 sdPackFilter analog;
+#X obj 37 83 sdUnEvent index value;
+#X obj 37 363 sdPack set_num_by_ind_in_range;
+#X obj 37 115 pack;
+#X obj 174 450 outlet;
+#X obj 213 84 sdPackFilter meta;
+#X obj 324 236 loadbang;
+#N canvas 0 30 681 722 meta->mode 1;
+#X obj 60 675 outlet;
+#X obj 53 172 inlet;
+#X obj 62 330 t b b;
+#X obj 102 255 t b b;
+#X msg 130 287 clear;
+#X msg 125 510 add_script inc_dest ( meta ( index ( 2 ) value ( 127
+) ) ) ( = ( dest_index % ( + ( 1 $ ( dest_index ) ) $ ( dest_count
+) ) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index ) ) ) ) Out
+( list ) ) \, add_script dec_dest ( meta ( index ( 3 ) value ( 127
+) ) ) ( = ( dest_index % ( + ( - ( $ ( dest_count ) 1 ) $ ( dest_index
+) ) $ ( dest_count ) ) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index
+) ) ) ) Out ( list ) );
+#X msg 60 386 add_script inc_group ( meta ( index ( 0 ) value ( 127
+) ) ) ( = ( group_index % ( + ( 1 $ ( group_index ) ) $ ( group_count
+) ) ) Print ( Pack ( set Pack ( groupIndex $ ( group_index ) ) ) )
+Out ( list ) ) \, add_script dec_group ( meta ( index ( 1 ) value (
+127 ) ) ) ( = ( group_index % ( + ( - ( $ ( group_count ) 1 ) $ ( group_index
+) ) $ ( group_count ) ) ) Print ( Pack ( set Pack ( groupIndex $ (
+group_index ) ) ) ) Out ( list ) );
+#X connect 1 0 3 0;
+#X connect 2 0 6 0;
+#X connect 2 1 5 0;
+#X connect 3 0 2 0;
+#X connect 3 1 4 0;
+#X connect 4 0 0 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 0;
+#X restore 324 266 pd meta->mode;
+#X obj 301 233 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 486 263 loadbang;
+#X obj 521 287 r \$0-group_count;
+#X msg 486 310 set group_count \$1;
+#X msg 486 286 1;
+#X obj 475 183 loadbang;
+#X msg 475 206 1;
+#X obj 510 207 r \$0-obj_count;
+#X obj 306 350 sdPackMatch group_index group_count dest_count dest_index
+, f 35;
+#X msg 474 230 set dest_count \$1;
+#X obj 389 77 sdObjTrack groups;
+#X obj 389 100 sdUnPack;
+#X obj 389 123 list length;
+#X obj 389 148 s \$0-group_count;
+#X obj 505 100 sdUnPack;
+#X obj 505 123 list length;
+#X obj 505 77 sdObjTrack objs;
+#X obj 505 148 s \$0-obj_count;
+#X obj 442 38 inlet;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 6 0;
+#X connect 2 0 4 0;
+#X connect 2 1 4 1;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 6 0 17 0;
+#X connect 7 0 8 0;
+#X connect 8 0 17 0;
+#X connect 9 0 8 0;
+#X connect 10 0 13 0;
+#X connect 11 0 12 0;
+#X connect 12 0 17 0;
+#X connect 13 0 12 0;
+#X connect 14 0 15 0;
+#X connect 15 0 18 0;
+#X connect 16 0 18 0;
+#X connect 17 0 5 0;
+#X connect 18 0 17 0;
+#X connect 19 0 20 0;
+#X connect 20 0 21 0;
+#X connect 21 0 22 0;
+#X connect 23 0 24 0;
+#X connect 24 0 26 0;
+#X connect 25 0 23 0;
+#X connect 27 0 19 0;
+#X connect 27 0 25 0;
