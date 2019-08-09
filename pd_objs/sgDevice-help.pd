@@ -1,4 +1,4 @@
-#N canvas 0 30 681 722 10;
+#N canvas 683 30 681 219 10;
 #X obj 373 157 loadbang;
 #X obj 373 203 s \$0-GLOBAL;
 #X msg 373 180 list init 0;
@@ -55,7 +55,7 @@
 #X obj 133 10 midiin;
 #X obj 133 60 list trim;
 #X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2413 1;
+-1 -1 0 1;
 #X floatatom 50 550 5 0 0 0 - - -;
 #X obj 148 259 route 0 1 2 3 4 5;
 #X obj 48 668 throw~ out, f 7;
@@ -69,7 +69,7 @@
 -1 -1 0 1;
 #X floatatom 48 621 5 0 0 0 - - -;
 #X obj 100 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9080 1;
+-1 -1 0 1;
 #X floatatom 100 550 5 0 0 0 - - -;
 #X obj 416 255 route 0 1 2 3 4 5;
 #X obj 416 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -105,17 +105,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 11455 1;
+-1 -1 0 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 102 1;
+-1 -1 0 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 1118 1;
+-1 -1 0 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 11189 1;
+-1 -1 0 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -685,7 +685,7 @@ instrument;
 #X obj 52 418 sdUnPack;
 #X obj 52 442 send;
 #X obj 33 501 sdObjExample \$0-instr \$0-GLOBAL gInstr;
-#N canvas 0 30 681 345 generic 0;
+#N canvas 0 30 681 722 generic 1;
 #X obj 343 11 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
 #X obj 343 114 s GUI;
 #N canvas 0 30 762 722 (subpatch) 0;
@@ -704,15 +704,35 @@ instrument;
 #X connect 5 0 3 0;
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 404 111 pd;
-#X obj 11 12 sdObjState_ui GUI \$0-GLOBAL gInstr;
 #X obj 343 67 sgDeviceToInterface;
 #X obj 11 511 s \$0-fromGUI;
 #X obj 454 44 r \$0-fromGUI;
-#X connect 0 0 4 0;
-#X connect 3 0 5 0;
-#X connect 4 0 1 0;
-#X connect 4 0 2 0;
-#X connect 6 0 4 1;
+#X obj 11 12 sdObjState_ui GUI \$0-GUI-INIT gInstr;
+#X msg 409 180 list init 0;
+#X obj 409 203 s \$0-GUI-INIT;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 553 47 pd;
+#X connect 0 0 3 0;
+#X connect 0 0 9 0;
+#X connect 3 0 1 0;
+#X connect 3 0 2 0;
+#X connect 5 0 3 1;
+#X connect 6 0 4 0;
+#X connect 7 0 8 0;
 #X restore 30 162 pd generic gui + sgDevice 2;
 #X obj 33 571 sdObjExample \$0-instr2 \$0-GLOBAL gInstr;
 #X obj 33 641 sdObjExample \$0-instr3 \$0-GLOBAL gInstr;
