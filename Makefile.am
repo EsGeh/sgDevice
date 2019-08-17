@@ -23,7 +23,8 @@ data_DATA = \
 	$(PATH_PD_OBJS)/sdKeyboardEvents.pd \
 	$(PATH_PD_OBJS)/sdKeyboard_obj.pd \
 	$(PATH_PD_OBJS)/sdKeyboardModes_obj.pd \
-	$(PATH_PD_OBJS)/sdKeyboardModes_ui.pd
+	$(PATH_PD_OBJS)/sdKeyboardModes_ui.pd \
+	$(PATH_PD_OBJS)/sdEvent_filterByIndex.pd
 
 sgDevice_la_SOURCES = \
   $(PATH_CODE)/sgDevice.c $(PATH_CODE)/sgDevice.h \
