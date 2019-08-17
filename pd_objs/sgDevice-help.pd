@@ -1,9 +1,9 @@
-#N canvas 0 30 1364 503 10;
+#N canvas 0 30 681 503 10;
 #X obj 373 157 loadbang;
 #X obj 373 203 s \$0-GLOBAL;
 #X msg 373 180 list init 0;
 #X obj 273 482 r \$0-out;
-#N canvas 0 30 1364 503 out 0;
+#N canvas 683 30 681 503 out 0;
 #X obj 315 49 sdEventToProperties;
 #X obj 426 72 sdProperty volume \$0;
 #X obj 105 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 -262144
@@ -55,7 +55,7 @@
 #X obj 133 10 midiin;
 #X obj 133 60 list trim;
 #X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 10566 1;
+-1 -1 0 1;
 #X floatatom 50 550 5 0 0 0 - - -;
 #X obj 148 259 route 0 1 2 3 4 5;
 #X obj 48 668 throw~ out, f 7;
@@ -69,7 +69,7 @@
 -1 -1 0 1;
 #X floatatom 48 621 5 0 0 0 - - -;
 #X obj 100 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2451 1;
+-1 -1 0 1;
 #X floatatom 100 550 5 0 0 0 - - -;
 #X obj 416 255 route 0 1 2 3 4 5;
 #X obj 416 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -105,17 +105,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 8966 1;
+-1 -1 0 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3365 1;
+-1 -1 0 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 8661 1;
+-1 -1 0 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 8611 1;
+-1 -1 0 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -685,9 +685,9 @@ instrument;
 #X obj 52 418 sdUnPack;
 #X obj 52 442 send;
 #X obj 33 501 sdObjExample \$0-instr \$0-GLOBAL gInstr;
-#N canvas 0 30 1364 503 generic 0;
+#N canvas 0 30 681 503 generic 0;
 #X obj 330 88 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
-#X obj 429 336 s GUI;
+#X obj 513 273 s GUI;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
@@ -703,10 +703,10 @@ instrument;
 #X connect 3 1 1 0;
 #X connect 5 0 3 0;
 #X coords 0 -1 1 1 100 22 1 100 100;
-#X restore 490 333 pd;
-#X obj 429 289 sgDeviceToInterface;
+#X restore 574 270 pd;
+#X obj 513 226 sgDeviceToInterface;
 #X obj 11 618 s \$0-fromGUI;
-#X obj 540 266 r \$0-fromGUI;
+#X obj 624 203 r \$0-fromGUI;
 #X obj 11 12 sdObjState_ui GUI \$0-GUI-INIT gInstr;
 #X msg 332 13 list init 0;
 #X obj 332 36 s \$0-GUI-INIT;
@@ -727,7 +727,7 @@ instrument;
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 330 112 pd;
 #X obj 812 77 r \$0-reserved-input;
-#X obj 330 165 s \$0-reserved-input, f 10;
+#X obj 330 288 s \$0-reserved-input, f 10;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
@@ -744,7 +744,7 @@ instrument;
 #X connect 5 0 3 0;
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 812 103 pd;
-#N canvas 0 30 1364 503 to-objects 0;
+#N canvas 0 30 681 503 to-objects 0;
 #X obj 75 166 sdPackMatch;
 #X obj 155 119 sdReplace \$0;
 #X msg 155 80 clear \, add_script out ( out ( args=[ * =] ) ) ( Print
@@ -776,30 +776,81 @@ instrument;
 #X restore 812 156 pd;
 #X obj 812 183 sdUnPack;
 #X obj 812 206 send;
-#N canvas 0 30 1364 503 reserved-input 0;
-#X obj 76 108 sdPackMatch;
-#X obj 109 46 loadbang;
-#X msg 109 69 clear \, add out analog ( * value ( ?volume ) index (
-7 ) ) \, add out analog ( * value ( ?reverb ) index ( 15 ) );
-#X obj 76 131 outlet;
+#N canvas 0 30 681 503 reserved-input 0;
+#X obj 76 168 sdPackMatch;
+#X obj 128 21 loadbang;
+#X obj 76 191 outlet;
 #X obj 8 17 inlet;
-#X obj 143 133 outlet;
-#X connect 0 0 3 0;
-#X connect 0 1 5 0;
-#X connect 1 0 2 0;
-#X connect 2 0 0 0;
-#X connect 4 0 0 0;
-#X restore 330 140 pd reserved-input;
-#X text 622 284 <-- control interface/gui by sgDevice;
+#X obj 143 193 outlet;
+#X msg 128 44 clear \, add out analog ( * value ( ?volume ) index (
+0 ) ) \, add out analog ( * value ( ?reverb ) index ( 1 ) ) \, add_script
+out-enable ( switch ( * value ( ?value ) index ( 0 ) ) ) ( Print (
+Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
+) ) \, add_script reverb-enable ( switch ( * value ( ?value ) index
+( 1 ) ) ) ( Print ( Pack ( out Pack ( reverb_enable != ( 0 $ ( value
+) ) ) ) ) Out ( list ) );
+#X connect 0 0 2 0;
+#X connect 0 1 4 0;
+#X connect 1 0 5 0;
+#X connect 3 0 0 0;
+#X connect 5 0 0 0;
+#X restore 330 263 pd reserved-input;
+#X text 634 227 <-- control interface/gui by sgDevice;
 #X text 454 141 <- catch some controls and connect them statically
 ;
+#N canvas 0 30 681 503 filter_analog 0;
+#X obj 55 70 sdPackFilter analog, f 50;
+#X obj 65 150 outlet;
+#X obj 57 30 inlet;
+#X obj 363 153 outlet;
+#X obj 55 94 sdEvent_filterByIndex 7 1;
+#X obj 138 118 sdEvent_filterByIndex 14 1 1;
+#X connect 0 0 4 0;
+#X connect 0 1 3 0;
+#X connect 2 0 0 0;
+#X connect 4 0 1 0;
+#X connect 4 1 5 0;
+#X connect 5 0 1 0;
+#X connect 5 1 3 0;
+#X restore 330 144 pd filter_analog;
+#N canvas 0 30 681 503 filter_switch 0;
+#X obj 65 150 outlet;
+#X obj 57 30 inlet;
+#X obj 363 153 outlet;
+#X obj 55 70 sdPackFilter switch, f 50;
+#X obj 55 94 sdEvent_filterByIndex 14 1;
+#X obj 118 122 sdEvent_filterByIndex 14 1 1;
+#X connect 1 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 2 0;
+#X connect 4 0 0 0;
+#X connect 4 1 5 0;
+#X connect 5 0 0 0;
+#X connect 5 1 2 0;
+#X restore 423 168 pd filter_switch;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 372 227 pd;
 #X connect 0 0 9 0;
 #X connect 3 0 1 0;
 #X connect 3 0 2 0;
 #X connect 5 0 3 1;
 #X connect 6 0 4 0;
 #X connect 7 0 8 0;
-#X connect 9 0 17 0;
+#X connect 9 0 20 0;
 #X connect 10 0 12 0;
 #X connect 12 0 13 0;
 #X connect 13 0 14 0;
@@ -807,10 +858,15 @@ instrument;
 #X connect 15 0 16 0;
 #X connect 15 2 16 1;
 #X connect 17 0 11 0;
-#X connect 17 1 3 0;
+#X connect 20 0 22 0;
+#X connect 20 1 21 0;
+#X connect 21 0 22 0;
+#X connect 21 1 3 0;
+#X connect 22 0 17 0;
 #X restore 30 162 pd generic gui + sgDevice 2;
 #X obj 33 571 sdObjExample \$0-instr2 \$0-GLOBAL gInstr;
 #X obj 33 641 sdObjExample \$0-instr3 \$0-GLOBAL gInstr;
+#X text 202 165 <- latest developements;
 #X connect 0 0 2 0;
 #X connect 2 0 1 0;
 #X connect 3 0 4 0;

@@ -31,5 +31,5 @@ set usbmidiklik \
 set structuredData \
 	structuredData \
 	https://github.com/EsGeh/structuredData.git \
-	6b7fd7efbb923b4693a6812eca233688a36e082b \
+	11262177ab63729b2fcd7768b2e41e97ddb95106 \
 	"scripts/init.fish --deps-dir \$DEP_DIR"
