@@ -93,6 +93,7 @@ if test $dev_version -eq 1
 		-alsamidi \
 		-stderr \
 		-midiindev 1 \
+		-midioutdev 1 \
 		-noprefs \
 		-path "$DEP_DIR/zexy" \
 		-lib "zexy" \
@@ -104,7 +105,8 @@ if test $dev_version -eq 1
 
 	if test "$tty_pid" != ""
 		sleep 1
-		aconnect ttymidi_test 'Pure Data'
+		and aconnect ttymidi_test 'Pure Data'
+		and aconnect 'Pure Data':1 'sgDevice 2'
 	end
 
 	set pd_pid $last_pid
@@ -118,10 +120,10 @@ else
 		-alsamidi \
 		-stderr \
 		-midiindev 1 \
+		-midioutdev 1 \
 		-noprefs \
 		-path "$DEP_DIR/zexy" \
 		-lib "zexy" \
-		-path "$doc_dir" \
 		-path "$doc_dir" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
@@ -129,5 +131,6 @@ else
 		"$doc_dir/sgDevice-help.pd" &
 	sleep 1
 	and aconnect 'sgDevice 2' 'Pure Data'
+	and aconnect 'Pure Data':1 'sgDevice 2'
 	wait
 end

@@ -179,9 +179,19 @@ class Midi
 	void update_midi_out()
 	{
 		int input = -1;
-		if( Serial.available() > 0 ) {
-		input = Serial.read();
-		Serial1.write( input );
+		if( Serial.available() > 0 )
+		{
+			input = Serial.read();
+			#ifdef DEBUG_PRINT
+				Serial.print( "PC->MIDI: " );
+				Serial.println( input );
+				Serial1.write( 0x90 );
+				Serial1.write( 60 );
+				Serial1.write( 100 );
+			#else
+				Serial1.write( input );
+			#endif
+			Serial1.flush();
 		}
 	}
 };
