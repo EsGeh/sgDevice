@@ -1,4 +1,4 @@
-#N canvas 0 30 681 503 10;
+#N canvas 683 30 681 219 10;
 #X obj 373 157 loadbang;
 #X obj 373 203 s \$0-GLOBAL;
 #X msg 373 180 list init 0;
@@ -457,7 +457,7 @@
 #X connect 70 0 27 0;
 #X connect 71 0 1 0;
 #X restore 31 29 pd raw input;
-#N canvas 0 30 681 722 simple 0;
+#N canvas 0 30 681 722 simple 1;
 #X text 11 8 simple "sgDevice" obj sending ctrl events;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
@@ -490,14 +490,40 @@
 #X connect 3 1 1 0;
 #X connect 5 0 3 0;
 #X coords 0 -1 1 1 100 22 1 100 100;
-#X restore 318 54 pd;
-#X text 305 5 same for (computer) keyboard...;
-#X obj 318 32 sdKeyboard_obj Keyb_raw \$0-GLOBAL;
+#X restore 18 144 pd;
+#X text 5 95 same for (computer) keyboard...;
+#X obj 18 122 sdKeyboard_obj Keyb_raw \$0-GLOBAL;
 #X obj 20 31 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 19 228 pd;
+#X text 5 182 same for piano keybord...;
+#X text 432 32 sends events of type "analog" \, "trigger" \, "switch"
+and "meta", f 31;
+#X text 432 124 sends events of type "key";
+#X text 431 205 sends events of type "note";
+#X obj 19 204 sdPiano_obj Piano_raw \$0-GLOBAL 1;
+#X text 233 206 name \, global_rcv \, channel;
+#X text 233 126 name \, global_rcv;
+#X text 233 33 name \, global_rcv \, device ver.;
 #X connect 4 0 2 0;
 #X connect 5 0 1 0;
+#X connect 11 0 6 0;
 #X restore 31 71 pd simple input based on sdEvents;
-#N canvas 0 30 1364 503 send 0;
+#N canvas 0 30 762 722 send 0;
 #X obj 19 222 s \$0-input;
 #X text 109 223 you can step through modes using the "meta" triggers
 (if there are multiple modes), f 25;
@@ -685,7 +711,7 @@ instrument;
 #X obj 52 418 sdUnPack;
 #X obj 52 442 send;
 #X obj 33 501 sdObjExample \$0-instr \$0-GLOBAL gInstr;
-#N canvas 0 30 681 503 generic 0;
+#N canvas 0 30 762 722 generic 0;
 #X obj 330 88 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
 #X obj 513 273 s GUI;
 #N canvas 0 30 762 722 (subpatch) 0;
@@ -798,7 +824,7 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #X text 634 227 <-- control interface/gui by sgDevice;
 #X text 454 141 <- catch some controls and connect them statically
 ;
-#N canvas 0 30 681 503 filter_analog 0;
+#N canvas 0 30 762 722 filter_analog 0;
 #X obj 55 70 sdPackFilter analog, f 50;
 #X obj 65 150 outlet;
 #X obj 57 30 inlet;

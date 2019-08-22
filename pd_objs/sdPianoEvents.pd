@@ -1,0 +1,13 @@
+#N canvas 0 30 762 722 10;
+#X obj 210 478 loadbang;
+#X obj 174 538 sdPackMatch;
+#X obj 174 561 outlet;
+#X obj 85 422 pack f f;
+#X obj 85 398 notein \$1;
+#X msg 210 502 clear \, add note ?pitch ?volume;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 3 0 1 0;
+#X connect 4 0 3 0;
+#X connect 4 1 3 1;
+#X connect 5 0 1 0;

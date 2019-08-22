@@ -22,6 +22,8 @@ data_DATA = \
 	$(PATH_PD_OBJS)/sgDeviceModes_ui.pd \
 	$(PATH_PD_OBJS)/sdKeyboardEvents.pd \
 	$(PATH_PD_OBJS)/sdKeyboard_obj.pd \
+	$(PATH_PD_OBJS)/sdPianoEvents.pd \
+	$(PATH_PD_OBJS)/sdPiano_obj.pd \
 	$(PATH_PD_OBJS)/sdKeyboardModes_obj.pd \
 	$(PATH_PD_OBJS)/sdKeyboardModes_ui.pd \
 	$(PATH_PD_OBJS)/sdEvent_filterByIndex.pd
