@@ -7,6 +7,10 @@
 */
 
 //#define DEBUG_PRINT
+#ifdef DEBUG_PRINT
+#undef PC_RATE
+#define PC_RATE 9600
+#endif
 
 // maximum value at analog pins:
 #define ANALOG_PIN_RESOULUTION 1023
@@ -132,7 +136,7 @@ class Buttons
 				{
 					value[i] = logical_value;
 					#ifdef DEBUG_PRINT
-						Serial.println(String("Buttons: pin") + String(pin0+i) + String("] = " + String((unsigned int )logical_value));
+						Serial.println(String("Buttons[") + String(pin0+i) + String("] = ") + String((unsigned int )logical_value));
 					#else
 						Serial.write( 0xB0 );
 						Serial.write( control_id + i );
