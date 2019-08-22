@@ -66,18 +66,25 @@ end
 if test $dev_version -eq 1
 	arduino --upload "$BASE_DIR/src/arduino/sgDevice/sgDevice.ino"
 else if test "$dev_version" -eq "2"
-	echo "1. switch device to USB mode:"
-	echo "set a jumper next to the USB connector:"
-	echo
-	echo " --- direction of the USB ---"
-	echo "O  x"
-	echo "|   "
-	echo "O  x"
-	echo "    "
-	echo "x  x"
-	echo
-	echo "unplug, plug it back in..."
-	read -P "done? (press any key to continue)..."
+	# temporary set to arduino serial mode
+	# via midi message:
+	amidi -p 'hw:1,0,0' -S 'F0 77 77 77 09 F7'
+	sleep 1
+
+	# old procedure...:
+	# echo "1. switch device to USB mode:"
+	# echo "set a jumper next to the USB connector:"
+	# echo
+	# echo " --- direction of the USB ---"
+	# echo "O  x"
+	# echo "|   "
+	# echo "O  x"
+	# echo "    "
+	# echo "x  x"
+	# echo
+	# echo "unplug, plug it back in..."
+	# read -P "done? (press any key to continue)..."
+
 	mkdir -p "$temp_dir"
 	echo "connected boards: "
 	and arduino-cli board list

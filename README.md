@@ -28,13 +28,24 @@ software utilities to use my homemade midi input device with puredata
 
 ## Build and Install
 
-- (only sgDevice ver 2) turn the Arduino into a native MIDI device:
+- (only sgDevice ver 2)
 
-	plug the device in the PC via USB, then run:
+	- turn the Arduino into a native MIDI device:
 
-		$ ./scripts/arduino_upload_usb_firmware.fish
+		The case has to be open in order to set a jumper.
+		This (hopefully) has only to be done once!
 
-	(the script will guide you)
+		plug the device in the PC via USB, then run:
+
+			$ ./scripts/arduino_upload_usb_firmware.fish
+
+		(the script will guide you)
+
+	- set midi device name:
+
+		plug the device in the PC via USB, then run:
+
+			$ ./scripts/midi_set_device_name.fish
 
 - build and install the software on sgDevice (arduino part):
 
@@ -43,12 +54,6 @@ software utilities to use my homemade midi input device with puredata
 		$ ./scripts/arduino_upload.fish
 
 	(the script will guide you)
-
-- (only sgDevice ver 2) set midi device name:
-
-	plug the device in the PC via USB, then run:
-
-		$ ./scripts/midi_set_device_name.fish
 
 - build and install the PC part (puredata library):
 
