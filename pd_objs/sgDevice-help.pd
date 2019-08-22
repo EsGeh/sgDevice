@@ -1,4 +1,4 @@
-#N canvas 683 30 681 219 10;
+#N canvas 0 30 681 722 10;
 #X obj 373 157 loadbang;
 #X obj 373 203 s \$0-GLOBAL;
 #X msg 373 180 list init 0;
@@ -55,7 +55,7 @@
 #X obj 133 10 midiin;
 #X obj 133 60 list trim;
 #X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 10900 1;
 #X floatatom 50 550 5 0 0 0 - - -;
 #X obj 148 259 route 0 1 2 3 4 5;
 #X obj 48 668 throw~ out, f 7;
@@ -69,7 +69,7 @@
 -1 -1 0 1;
 #X floatatom 48 621 5 0 0 0 - - -;
 #X obj 100 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 4140 1;
 #X floatatom 100 550 5 0 0 0 - - -;
 #X obj 416 255 route 0 1 2 3 4 5;
 #X obj 416 281 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -105,17 +105,17 @@
 #X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 11328 1;
 #X floatatom 150 550 5 0 0 0 - - -;
 #X obj 48 572 expr $f1*120, f 6;
 #X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7500 1;
 #X floatatom 200 550 5 0 0 0 - - -;
 #X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7264 1;
 #X floatatom 250 550 5 0 0 0 - - -;
 #X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 7010 1;
 #X floatatom 300 550 5 0 0 0 - - -;
 #N canvas 0 30 798 854 random 0;
 #X obj 80 16 inlet;
@@ -457,7 +457,7 @@
 #X connect 70 0 27 0;
 #X connect 71 0 1 0;
 #X restore 31 29 pd raw input;
-#N canvas 0 30 681 722 simple 1;
+#N canvas 0 30 681 722 simple 0;
 #X text 11 8 simple "sgDevice" obj sending ctrl events;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
@@ -516,9 +516,9 @@ and "meta", f 31;
 #X text 432 124 sends events of type "key";
 #X text 431 205 sends events of type "note";
 #X obj 19 204 sdPiano_obj Piano_raw \$0-GLOBAL 1;
-#X text 233 206 name \, global_rcv \, channel;
 #X text 233 126 name \, global_rcv;
-#X text 233 33 name \, global_rcv \, device ver.;
+#X text 233 33 name global_rcv [device_ver channel(0:any)], f 24;
+#X text 233 206 name global_rcv [channel (0: any)], f 27;
 #X connect 4 0 2 0;
 #X connect 5 0 1 0;
 #X connect 11 0 6 0;
