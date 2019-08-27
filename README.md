@@ -106,3 +106,7 @@ software utilities to use my homemade midi input device with puredata
 ### cleanup docu
 
 	$ ./scripts/doc_exit.fish
+
+### wiring schema
+
+![sgDevice 2 wiring schema](img/sgDevice2_wiring.svg)
