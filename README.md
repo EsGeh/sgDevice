@@ -2,6 +2,14 @@
 
 software utilities to use my homemade midi input device with puredata
 
+## Pictures
+
+![sgDevice ver 2](img/small/20190827_135715.jpg)
+![sgDevice ver 2](img/small/20190827_140000.jpg)
+![sgDevice ver 2, backside](img/small/20190827_140756.jpg)
+![sgDevice ver 2, interior](img/small/20190822_131132.jpg)
+
+
 ## Build Dependencies
 
 - fish shell
