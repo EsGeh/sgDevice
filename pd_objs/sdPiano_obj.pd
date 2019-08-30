@@ -2,11 +2,11 @@
 #X obj 153 94 sdObjState \$1 \$2;
 #X obj 40 23 inlet;
 #X obj 254 125 outlet;
-#X obj 246 59 sdPianoEvents \$3;
 #X obj 246 34 r \$0-toMidi;
 #X obj 130 126 s \$0-toMidi;
-#X connect 0 0 5 0;
+#X obj 246 59 sdPianoEvents \$3 \$4 \$5 \$6;
+#X connect 0 0 4 0;
 #X connect 0 2 2 0;
 #X connect 1 0 0 0;
-#X connect 3 0 0 2;
-#X connect 4 0 3 0;
+#X connect 3 0 5 0;
+#X connect 5 0 0 2;
