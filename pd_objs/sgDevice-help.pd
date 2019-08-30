@@ -518,18 +518,18 @@ and "meta", f 31;
 #X text 233 126 name \, global_rcv;
 #X text 233 33 name global_rcv [device_ver channel(0: any)], f 24
 ;
-#X msg 43 324 list note ( pitch ( 60 ) volume ( 80 ) );
 #X obj 43 347 sdPackFromHuman;
 #X obj 43 370 s Piano_raw;
 #X text 33 300 send notes to piano:;
 #X text 244 225 name global_rcv [out_channel(0: any) in_channel(0:
 any) startmsg stopmsg], f 27;
 #X obj 19 204 sdPiano_obj Piano_raw \$0-GLOBAL 1 1 start stop;
+#X msg 43 324 list note ( pitch ( 60 ) volume ( 0.5 ) );
 #X connect 4 0 2 0;
 #X connect 5 0 1 0;
 #X connect 13 0 14 0;
-#X connect 14 0 15 0;
-#X connect 18 0 6 0;
+#X connect 17 0 6 0;
+#X connect 18 0 13 0;
 #X restore 31 71 pd simple input based on sdEvents;
 #N canvas 0 30 681 722 send 0;
 #X obj 19 222 s \$0-input;
