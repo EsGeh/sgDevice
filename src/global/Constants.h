@@ -13,10 +13,19 @@
 // control id in MIDI messages:
 /////////////////////////////
 
-#define TRIGGERS_CONTROL_ID 0
-#define SWITCHES_CONTROL_ID 10
-#define ANALOG_CONTROL_ID 20
+#define TRIGGERS_CONTROL_ID (32+0)
+#define SWITCHES_CONTROL_ID (32+10)
+#define ANALOG_CONTROL_ID (32+20)
 #define META_CONTROL_ID 64
+
+/* midi control numbers 0..31:
+ if ANALOG_DOUBLE_PRECISION is defined,
+ these may specify the
+ most significant bits (MSB) of
+ the controls 32..63.
+ This way 2 midi messages can be grouped
+ for higher precision.
+*/
 
 /////////////////////////////
 // arduino pins

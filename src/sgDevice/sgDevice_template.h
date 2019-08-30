@@ -30,6 +30,7 @@
 
 // make shure this can be used as a boolean value:
 #ifdef ANALOG_DOUBLE_PRECISION
+#undef ANALOG_DOUBLE_PRECISION
 #define ANALOG_DOUBLE_PRECISION 1
 #else
 #define ANALOG_DOUBLE_PRECISION 0
@@ -43,11 +44,10 @@
 typedef struct _sgDevice {
 	//internal obj information:
 	t_object obj;
-	t_int bufferLength; // number of symbols received yet
-	t_int buffer[MAX_LENGTH_MESSAGE];
+	ByteDynA buffer;
+	//t_int bufferLength; // number of symbols received yet
+	//t_int buffer[MAX_LENGTH_MESSAGE];
 	// most/least significant bit for control messages:
-	t_int msb;
-	t_int lsb;
 	// outlets:
 	t_outlet* outlet;
 } t_sgDevice;
@@ -57,6 +57,12 @@ typedef struct _sgDevice {
 void* WITH_PREFIX(init)( );
 void WITH_PREFIX(exit)( t_sgDevice* pThis );
 void WITH_PREFIX(on_input)(t_sgDevice* pThis, t_floatarg f);
+
+void WITH_PREFIX(on_device_output_ctrl)(
+		t_sgDevice* pThis,
+		const unsigned char control_id,
+		t_int value
+);
 
 void WITH_PREFIX(output)(
 		t_sgDevice* pThis,
@@ -96,7 +102,8 @@ t_class* WITH_PREFIX(register_class)( t_symbol* class_name )
 void* WITH_PREFIX(init)( )
 {
 	t_sgDevice* x = (t_sgDevice* )pd_new(WITH_PREFIX(class));
-	x -> bufferLength = 0;
+	//x -> bufferLength = 0;
+	ByteDynA_init( &x->buffer );
 	x -> outlet = outlet_new(& x->obj, &s_list);
 
 	return x;
@@ -105,137 +112,189 @@ void* WITH_PREFIX(init)( )
 // the constructor
 void WITH_PREFIX(exit)( t_sgDevice* pThis )
 {
+	ByteDynA_exit( &pThis->buffer );
 }
 
 void WITH_PREFIX(on_input)(t_sgDevice* pThis, t_floatarg f)
 {
-	DB_PRINT( "buffer len.: %i, %x", pThis->bufferLength, (int )f);
+	DB_PRINT( "buffer len.: %i, %x", ByteDynA_get_size( &pThis->buffer ), (int )f);
+	unsigned char current_byte = (unsigned char )f;
 	if(
-		(f>=0x80)
+		(current_byte >= 0x80)
 	)
-	// got statusbyte:
+	// status byte:
 	{
-		DB_PRINT("status byte");
+		unsigned char
+			msg_type = current_byte >> 4,
+			channel = (current_byte & 0b00001111 )
+			;
+		DB_PRINT( "status byte. msg: %x, channel: %i", msg_type, channel);
+		// only consider control change events:
 		if(
-			(((int )f) >> 4) == 0xB
+			channel == 0
+			&& msg_type == 0xB
 		)
-		// this is a control change message:
 		{
+			// continue
 			if(
-				// already read some control messages MSB
-				pThis->bufferLength == 3
-				&& IS_ANALOG( pThis->buffer[1] )
-				&& IN_RANGE(pThis->buffer[1], 0, 32)
-				&& ANALOG_DOUBLE_PRECISION
+					// we already have a msb,
+					// and we are waiting for a lsb
+					ByteDynA_get_size( &pThis->buffer ) >= 2
+					&&
+					ByteDynA_get_array( &pThis->buffer )[1] < 32
 			)
-			// MSB
 			{
-				DB_PRINT("continue...");
-				pThis->buffer [pThis->bufferLength] = f;
-				pThis->bufferLength ++;
+				if( ByteDynA_get_size( &pThis->buffer ) == 3 )
+				{
+					ByteDynA_append( &pThis->buffer, current_byte);
+				}
+				else
+				{
+					ByteDynA_clear( &pThis->buffer );
+				}
 			}
+			// start new message
 			else
 			{
-				DB_PRINT("start new");
-				pThis->buffer [0] = f;
-				pThis->bufferLength=1;
+				ByteDynA_clear( &pThis->buffer );
+				ByteDynA_append( &pThis->buffer, current_byte);
 			}
 		}
-	}
-	else if( pThis->bufferLength > 0 )
-	// got data byte:
-	{
-		DB_PRINT("argument");
-		pThis->buffer [pThis->bufferLength] = f;
-		pThis->bufferLength ++;
-
-		// check if we have we buffered enough to execute it:
-		if( 
-			pThis->bufferLength == 3
-			||
-			pThis->bufferLength == 6
+		else if( 
+				ByteDynA_get_size( &pThis->buffer ) > 0
 		)
 		{
-			t_int control_id = pThis->buffer[1];
-			DB_PRINT("control_id %i", control_id);
-			if(
-				IS_TRIGGER( control_id )
-				&& pThis->bufferLength == 3
-			)
-			{
-				t_int value = pThis->buffer[2];
-				WITH_PREFIX(output)(
-						pThis,
-						gensym("trigger"),
-						control_id-TRIGGERS_CONTROL_ID,
-						value
-				);
-			}
-			
-			else if(
-				IS_SWITCH( control_id )
-				&& pThis->bufferLength == 3
-			)
-			{
-				t_int value = pThis->buffer[2];
-				WITH_PREFIX(output)(
-						pThis,
-						gensym("switch"),
-						control_id-SWITCHES_CONTROL_ID,
-						value
-				);
-			}
-
-			else if(
-				IS_META( control_id )
-				&& pThis->bufferLength == 3
-			)
-			{
-				t_int value = pThis->buffer[2];
-				WITH_PREFIX(output)(
-						pThis,
-						gensym("meta"),
-						control_id-META_CONTROL_ID,
-						value
-				);
-			}
-
-			#if ANALOG_DOUBLE_PRECISION == 0
-			else if(
-				IS_ANALOG(control_id)
-				&& pThis->bufferLength == 3
-			)
-			{
-				t_int value = pThis->buffer[2];
-				WITH_PREFIX(output)(
-						pThis,
-						gensym("analog"),
-						control_id-ANALOG_CONTROL_ID,
-						((float )value)/ANALOG_MIDI_RES
-				);
-				pThis->bufferLength=0;
-			}
-			#else
-			else if(
-				IS_ANALOG(control_id)
-				&& pThis->bufferLength == 6
-			)
-			{
-				t_int value = (pThis->buffer[2] << 7) + pThis->buffer[5];
-				WITH_PREFIX(output)(
-						pThis,
-						gensym("analog"),
-						control_id-ANALOG_CONTROL_ID,
-						((float )value)/ANALOG_MIDI_RES
-				);
-				pThis->bufferLength=0;
-			}
-			#endif
+			ByteDynA_clear( &pThis->buffer );
 		}
 	}
 	else
+	// data byte
 	{
-		//DB_PRINT("unknown message!");
+		if(
+				ByteDynA_get_size( &pThis->buffer ) > 0
+		)
+		// we have a status byte already,
+		// and we are waiting for data bytes
+		{
+			if(
+					ByteDynA_get_size( &pThis->buffer ) < 6
+			)
+			{
+				ByteDynA_append( &pThis->buffer, current_byte );
+			}
+		}
+
+		// maybe output s.t. and clear the buffer
+		if(
+				ByteDynA_get_size( &pThis->buffer ) == 3
+				&& 
+				// lsb, so we are done!
+				ByteDynA_get_array( &pThis->buffer )[1] >= 32
+		)
+		{
+			// dump lsb
+			WITH_PREFIX(on_device_output_ctrl)(
+					pThis,
+					ByteDynA_get_array( &pThis->buffer )[1],
+					ByteDynA_get_array( &pThis->buffer )[2]
+			);
+			ByteDynA_clear( &pThis->buffer );
+		}
+		if(
+				// we have a msb in the first triple:
+				ByteDynA_get_size( &pThis->buffer ) == 6
+				//ByteDynA_get_array( &pThis->buffer )[1] < 32
+		)
+		{
+			if(
+					// we have the corresponding lsb
+					ByteDynA_get_array( &pThis->buffer )[4]
+					==
+					ByteDynA_get_array( &pThis->buffer )[1] + 32
+			)
+			{
+				// dump msb+lsb
+				//DB_PRINT( "msb+lsb found!");
+				WITH_PREFIX(on_device_output_ctrl)(
+						pThis,
+						ByteDynA_get_array( &pThis->buffer )[4],
+						(((unsigned int )ByteDynA_get_array( &pThis->buffer )[2]) << 7)
+						+
+						(((unsigned int )ByteDynA_get_array( &pThis->buffer )[5]) << 0)
+				);
+			}
+			else
+			{
+				if(
+					ByteDynA_get_array( &pThis->buffer )[4] >= 32
+				)
+				{
+					// dump lsb
+					WITH_PREFIX(on_device_output_ctrl)(
+							pThis,
+							ByteDynA_get_array( &pThis->buffer )[4],
+							ByteDynA_get_array( &pThis->buffer )[5]
+					);
+				}
+			}
+			ByteDynA_clear( &pThis->buffer );
+		}
+	}
+}
+
+void WITH_PREFIX(on_device_output_ctrl)(
+		t_sgDevice* pThis,
+		const unsigned char control_id,
+		t_int value
+)
+{
+
+	if(
+		IS_TRIGGER( control_id )
+	)
+	{
+		WITH_PREFIX(output)(
+				pThis,
+				gensym("trigger"),
+				control_id-TRIGGERS_CONTROL_ID,
+				value
+		);
+	}
+	
+	else if(
+		IS_SWITCH( control_id )
+	)
+	{
+		WITH_PREFIX(output)(
+				pThis,
+				gensym("switch"),
+				control_id-SWITCHES_CONTROL_ID,
+				value
+		);
+	}
+
+	else if(
+		IS_META( control_id )
+	)
+	{
+		WITH_PREFIX(output)(
+				pThis,
+				gensym("meta"),
+				control_id-META_CONTROL_ID,
+				value
+		);
+	}
+
+	else if(
+		IS_ANALOG(control_id)
+	)
+	{
+		WITH_PREFIX(output)(
+				pThis,
+				gensym("analog"),
+				control_id-ANALOG_CONTROL_ID,
+				((float )value)/ANALOG_MIDI_RES
+		);
 	}
 }
 

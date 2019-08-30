@@ -73,10 +73,10 @@ class Analog
 					byte lsb = int( analog[i] * ANALOG_MIDI_RES ) & 0b01111111;
 					byte msb = int( analog[i] * ANALOG_MIDI_RES ) >> 7;
 					Serial.write( 0xB0 );
-					Serial.write( ANALOG_CONTROL_ID + i );
+					Serial.write( ANALOG_CONTROL_ID + i - 32);
 					Serial.write( msb);
 					Serial.write( 0xB0 );
-					Serial.write( 32 + ANALOG_CONTROL_ID + i );
+					Serial.write( ANALOG_CONTROL_ID + i );
 					Serial.write( lsb );
 				#endif
 			#endif
@@ -150,8 +150,11 @@ class Buttons
 class Midi
 {
 	private:
+		byte buf[6];
+		int buf_count;
 	public:
 	Midi()
+		: buf_count(0)
 	{
 	}
 
@@ -164,18 +167,77 @@ class Midi
 	{
 		int input = -1;
 		if( Serial1.available() > 0 ) {
-		input = Serial1.read();
-		// filter out "timing" and "Active Sensing" input:
-		if( input != 0b11111000 && input != 0b11111110 ) {
-			#ifdef DEBUG_PRINT
-			//Serial.println( analog[i] );
-			Serial.print( "MIDI->PC: " );
-			Serial.println( input, HEX);
-			#else
-			Serial.write( (byte )input );
-			Serial.flush();
-			#endif
-		}
+			input = Serial1.read();
+			if( input >= 0x80 ) {
+			// status byte:
+				// only send "note on" or "note off" msgs
+				// (ignore others):
+				byte msg_type = input >> 4;
+				byte channel = input & 0b00001111;
+				if(
+					 msg_type == 0x8
+					 || msg_type == 0x9
+				)
+				{
+					/* redirect incoming msgs
+					** on channel [0..14] -> [1..15],
+					** such that channel 0
+					** is free for the control msgs
+					** of the device
+					*/
+					if( channel < 15 )
+					{
+						// increase channel:
+						buf[0] = (msg_type << 4) + 1;
+						buf_count = 1;
+					}
+					else
+					/* incoming msgs on channel 15
+					** are ignored
+					*/
+					{
+						// ignore:
+						buf_count = 0;
+					}
+				}
+				else
+				{
+					// ignore:
+					buf_count = 0;
+				}
+			}
+			else
+			// data byte:
+			{
+				if( buf_count > 0 && buf_count < 3 )
+				{
+					buf[buf_count] = input;
+					buf_count ++;
+				}
+				if( buf_count >= 3 )
+				{
+					for( int i=0; i<buf_count; i++ )
+					{
+						Serial.write( buf[i] );
+					}
+					Serial.flush();
+					buf_count = 0;
+				}
+			}
+			/*
+			// filter out "timing" and "Active Sensing" input:
+			if( input != 0b11111000 && input != 0b11111110 )
+			{
+				#ifdef DEBUG_PRINT
+				//Serial.println( analog[i] );
+				Serial.print( "MIDI->PC: " );
+				Serial.println( input, HEX);
+				#else
+				Serial.write( (byte )input );
+				Serial.flush();
+				#endif
+			}
+			*/
 		}
 	}
 

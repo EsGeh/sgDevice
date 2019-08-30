@@ -96,10 +96,10 @@ class Analog
 				byte lsb = int( analog[i] * ANALOG_MIDI_RES ) & 0b01111111;
 				byte msb = int( analog[i] * ANALOG_MIDI_RES ) >> 7;
 				Serial.write( 0xB0 );
-				Serial.write( ANALOG_CONTROL_ID + i );
+				Serial.write( ANALOG_CONTROL_ID + i - 32);
 				Serial.write( msb);
 				Serial.write( 0xB0 );
-				Serial.write( 32 + ANALOG_CONTROL_ID + i );
+				Serial.write( ANALOG_CONTROL_ID + i );
 				Serial.write( lsb );
 				#endif
       #endif

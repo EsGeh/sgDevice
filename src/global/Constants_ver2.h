@@ -13,18 +13,18 @@
 // control id in MIDI messages:
 /////////////////////////////
 
-#define ANALOG_CONTROL_ID 0
+#define ANALOG_CONTROL_ID (32+0)
 #define ANALOG_COUNT 16
 
-#define SWITCHES_CONTROL_ID 16
+#define SWITCHES_CONTROL_ID (32+16)
 #define SWITCHES_COUNT 16
 
-/* midi control numbers 32..63:
+/* midi control numbers 0..31:
  if ANALOG_DOUBLE_PRECISION is defined,
  these may specify the
- least significant bits (LSB) of
- the controls 0..31.
- This way 2 midi messages are grouped
+ most significant bits (MSB) of
+ the controls 32..63.
+ This way 2 midi messages can be grouped
  for higher precision.
 */
 
@@ -46,13 +46,13 @@
 // analog parameters:
 /////////////////////////////
 
-#define ANALOG_MIDI_RES 127.0
+#define ANALOG_MIDI_RES 511.0
 
 #define ANALOG_STEPS ANALOG_MIDI_RES
 
 // if defined: use 2 midi messages to use 14 bytes instead of 7 bytes.
 
 // uncomment, if you want more than ANALOG_MIDI_RES > 127.0:
-//#define ANALOG_DOUBLE_PRECISION
+#define ANALOG_DOUBLE_PRECISION
 
 #endif
