@@ -16,7 +16,7 @@ begin
 	and chmod u+x "$DEP_DIR_DEFAULT/get_deps.fish"
 end
 or begin
-	echo "ERROR while downloading '$repo_uri'"
+	echo "ERROR while downloading '$get_deps_uri'"
 	exit 1
 end
 
