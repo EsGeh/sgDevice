@@ -3,6 +3,9 @@
 /doc/
 /bin/
 
+# used for test logs etc:
+/logs/
+
 # autotools:
 
 /Makefile.in

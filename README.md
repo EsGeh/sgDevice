@@ -87,7 +87,15 @@ software utilities to use my homemade midi input device with puredata
 
 	(manuall adjust the numbering!)
 
-## Debug serial communication
+## Testing and Debugging
+
+### Test native Midi Device (experimental)
+
+	$ ./scripts/doc_debug_midi.fish
+
+Check `./logs/` directory afterwards
+
+### Via USB (only sgDevice ver 1)
 
 	$ ./scripts/arduino_usbdump.fish
 

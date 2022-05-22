@@ -1,0 +1,337 @@
+#N canvas 0 450 846 418 10;
+#X obj 373 157 loadbang;
+#X obj 373 203 s \$0-GLOBAL;
+#X msg 373 180 list init 0;
+#X obj 273 482 r \$0-out;
+#N canvas 683 30 681 503 out 0;
+#X obj 315 49 sdEventToProperties;
+#X obj 426 72 sdProperty volume \$0;
+#X obj 105 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X obj 62 51 r \$0-volume;
+#X obj 315 26 inlet;
+#X floatatom 105 210 5 0 0 0 - - - 0;
+#X obj 543 95 sdProperty reverb \$0;
+#X obj 145 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 145 210 5 0 0 0 - - - 0;
+#X obj 145 58 r \$0-reverb;
+#X obj 105 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 61 26 r \$0-volume_enable;
+#X obj 145 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 205 83 r \$0-reverb_enable;
+#X obj 425 145 sdProperty volume_enable \$0;
+#X obj 542 168 sdProperty reverb_enable \$0;
+#X connect 0 1 1 0;
+#X connect 1 1 6 0;
+#X connect 2 0 5 0;
+#X connect 3 0 2 0;
+#X connect 4 0 0 0;
+#X connect 6 1 14 0;
+#X connect 7 0 8 0;
+#X connect 9 0 7 0;
+#X connect 11 0 10 0;
+#X connect 13 0 12 0;
+#X connect 14 1 15 0;
+#X coords 0 -1 1 1 85 130 1 100 100;
+#X restore 273 505 pd out;
+#N canvas 0 407 844 345 device 0;
+#X text 102 100 device ver.;
+#X floatatom 105 117 5 1 2 0 - - - 0;
+#X obj 88 312 outlet;
+#X msg 112 212 list set 3 version 1 \$1;
+#X obj 97 41 inlet;
+#X connect 1 0 3 0;
+#X connect 3 0 2 0;
+#X connect 4 0 1 0;
+#X coords 0 -1 1 1 74 36 2 100 100;
+#X restore 374 82 pd device version;
+#X obj 374 123 s sgDevice;
+#X obj 443 121 s sgDev_raw;
+#X obj 374 60 r dev_version;
+#N canvas 0 0 846 418 raw 1;
+#X obj 134 10 midiin;
+#X obj 83 99 list trim;
+#X obj 50 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 50 550 5 0 0 0 - - - 0;
+#X obj 148 259 route 0 1 2 3 4 5;
+#X obj 100 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 100 550 5 0 0 0 - - - 0;
+#X obj 416 255 route 0 1 2 3 4 5;
+#X obj 416 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 436 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 456 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 476 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 496 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 516 281 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 282 259 route 0 1 2;
+#X obj 282 286 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 302 286 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 322 286 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 563 255 route 0 1 2 3 4 5;
+#X obj 563 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 583 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 603 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 623 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 643 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 663 280 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 150 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 150 550 5 0 0 0 - - - 0;
+#X obj 200 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 200 550 5 0 0 0 - - - 0;
+#X obj 250 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 250 550 5 0 0 0 - - - 0;
+#X obj 300 414 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
+#000000 #000000 0 1;
+#X floatatom 300 550 5 0 0 0 - - - 0;
+#X obj 125 153 route analog;
+#X obj 264 153 route meta;
+#X obj 397 154 route trigger;
+#X obj 544 154 route switch;
+#X obj 83 74 sgDevice2;
+#X obj 133 33 t f f;
+#N canvas 0 0 846 418 ->hex 0;
+#X obj 37 37 inlet;
+#X obj 37 60 expr $f1 >> 4 \; $f1 % 16;
+#N canvas 0 0 846 418 ->hex 0;
+#X obj 49 23 inlet;
+#X obj 51 101 sel 10, f 11;
+#X obj 51 138 symbol A;
+#X obj 391 386 outlet;
+#X obj 110 139 sel 11, f 11;
+#X obj 110 162 symbol B;
+#X obj 175 163 sel 12, f 11;
+#X obj 240 188 sel 13, f 11;
+#X obj 306 213 sel 14, f 11;
+#X obj 369 236 sel 15, f 11;
+#X obj 175 186 symbol C;
+#X obj 240 211 symbol D;
+#X obj 306 236 symbol E;
+#X obj 369 259 symbol F;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 4 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 5 0 3 0;
+#X connect 6 0 10 0;
+#X connect 6 1 7 0;
+#X connect 7 0 11 0;
+#X connect 7 1 8 0;
+#X connect 8 0 12 0;
+#X connect 8 1 9 0;
+#X connect 9 0 13 0;
+#X connect 9 1 3 0;
+#X connect 10 0 3 0;
+#X connect 11 0 3 0;
+#X connect 12 0 3 0;
+#X connect 13 0 3 0;
+#X restore 118 97 pd ->hex;
+#N canvas 0 0 846 418 ->hex 0;
+#X obj 49 23 inlet;
+#X obj 51 101 sel 10, f 11;
+#X obj 51 138 symbol A;
+#X obj 391 386 outlet;
+#X obj 110 139 sel 11, f 11;
+#X obj 110 162 symbol B;
+#X obj 175 163 sel 12, f 11;
+#X obj 240 188 sel 13, f 11;
+#X obj 306 213 sel 14, f 11;
+#X obj 369 236 sel 15, f 11;
+#X obj 175 186 symbol C;
+#X obj 240 211 symbol D;
+#X obj 306 236 symbol E;
+#X obj 369 259 symbol F;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 1 1 4 0;
+#X connect 2 0 3 0;
+#X connect 4 0 5 0;
+#X connect 4 1 6 0;
+#X connect 5 0 3 0;
+#X connect 6 0 10 0;
+#X connect 6 1 7 0;
+#X connect 7 0 11 0;
+#X connect 7 1 8 0;
+#X connect 8 0 12 0;
+#X connect 8 1 9 0;
+#X connect 9 0 13 0;
+#X connect 9 1 3 0;
+#X connect 10 0 3 0;
+#X connect 11 0 3 0;
+#X connect 12 0 3 0;
+#X connect 13 0 3 0;
+#X restore 38 113 pd ->hex;
+#X obj 81 156 list;
+#X msg 81 179 symbol \$1\$2;
+#X obj 81 202 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 2 0 4 1;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 0;
+#X restore 182 70 pd ->hex;
+#X obj 182 117 print -n;
+#X obj 182 93 list trim;
+#N canvas 0 0 846 418 detect-jumps 0;
+#X obj 96 20 inlet;
+#X obj 183 102 expr abs($f1 - $f2);
+#X obj 237 170 moses 0.1;
+#X obj 237 277 print -n;
+#X obj 304 208 pack;
+#X obj 195 33 t f f;
+#X obj 391 33 t f f;
+#X msg 236 238 JUMP from \$2 to \$1;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 2 1 4 0;
+#X connect 4 0 7 0;
+#X connect 5 0 6 0;
+#X connect 5 1 1 0;
+#X connect 6 0 1 1;
+#X connect 6 1 4 1;
+#X connect 7 0 3 0;
+#X restore 32 221 pd detect-jumps;
+#X connect 0 0 38 0;
+#X connect 1 0 33 0;
+#X connect 2 0 3 0;
+#X connect 4 0 2 0;
+#X connect 4 0 42 0;
+#X connect 4 1 5 0;
+#X connect 4 2 25 0;
+#X connect 4 3 27 0;
+#X connect 4 4 29 0;
+#X connect 4 5 31 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 7 1 9 0;
+#X connect 7 2 10 0;
+#X connect 7 3 11 0;
+#X connect 7 4 12 0;
+#X connect 7 5 13 0;
+#X connect 14 0 15 0;
+#X connect 14 1 16 0;
+#X connect 14 2 17 0;
+#X connect 18 0 19 0;
+#X connect 18 1 20 0;
+#X connect 18 2 21 0;
+#X connect 18 3 22 0;
+#X connect 18 4 23 0;
+#X connect 18 5 24 0;
+#X connect 25 0 26 0;
+#X connect 27 0 28 0;
+#X connect 29 0 30 0;
+#X connect 31 0 32 0;
+#X connect 33 0 4 0;
+#X connect 33 1 34 0;
+#X connect 34 0 14 0;
+#X connect 34 1 35 0;
+#X connect 35 0 7 0;
+#X connect 35 1 36 0;
+#X connect 36 0 18 0;
+#X connect 37 0 1 0;
+#X connect 38 0 37 0;
+#X connect 38 1 39 0;
+#X connect 39 0 41 0;
+#X connect 41 0 40 0;
+#X restore 31 29 pd raw input;
+#X text 37 279 intermediate step (optional):;
+#X text 50 298 redirect events from input devices to instruments or
+other objects, f 27;
+#X text 359 11 set "sgDevice" version based on cmd line args:, f 19
+;
+#N canvas 0 30 1364 503 events 0;
+#X obj 50 34 inlet;
+#X obj 90 279 outlet;
+#X obj 139 98 loadbang;
+#X obj 119 153 sdPackMatch volume;
+#N canvas 0 30 1364 503 <event> 0;
+#X obj 89 384 sdReplace \$0;
+#X obj 89 29 inlet;
+#X obj 89 407 outlet;
+#X msg 89 63 clear \, add_script play_to_instr ( play ( args=[ * =]
+) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume
+$ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume
+( ?vol ) ) ( = ( volume $ ( vol ) ) ) \, add_script out_vol ( out_volume
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol Pack ( volume
+$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_rev ( out_reverb
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_rev Pack ( reverb
+$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_vol_enable ( out_volume_enable
+( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol_enable Pack
+( volume_enable $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_reverb_enable
+( out_reverb_enable ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack (
+set_reverb_enable Pack ( reverb_enable $ ( any ) ) ) ) ) Out ( list
+) ) );
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 3 0 0 0;
+#X restore 139 121 pd <event> -> <dest> ( <event> );
+#N canvas 0 30 762 722 (subpatch) 0;
+#X obj 67 163 print;
+#X obj 67 139 sdGate;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X obj 40 114 t a a;
+#X text 136 101 print msgs;
+#X obj 35 38 inlet;
+#X obj 40 187 outlet;
+#X connect 1 0 0 0;
+#X connect 2 0 1 1;
+#X connect 3 0 6 0;
+#X connect 3 1 1 0;
+#X connect 5 0 3 0;
+#X coords 0 -1 1 1 100 22 1 100 100;
+#X restore 90 185 pd;
+#X obj 197 100 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X text 351 120 <- the mapping is defined here;
+#X text 238 155 <- global var to remember current "volume" for the
+instrument;
+#X connect 0 0 3 0;
+#X connect 2 0 4 0;
+#X connect 3 0 5 0;
+#X connect 4 0 3 0;
+#X connect 5 0 1 0;
+#X connect 6 0 4 0;
+#X restore 52 393 pd events -> instrument;
+#X obj 51 367 r \$0-input;
+#X obj 52 418 sdUnPack;
+#X obj 52 442 send;
+#X obj 33 501 sdObjExample \$0-instr \$0-GLOBAL gInstr;
+#X obj 33 571 sdObjExample \$0-instr2 \$0-GLOBAL gInstr;
+#X obj 33 641 sdObjExample \$0-instr3 \$0-GLOBAL gInstr;
+#X connect 0 0 2 0;
+#X connect 2 0 1 0;
+#X connect 3 0 4 0;
+#X connect 5 0 6 0;
+#X connect 5 0 7 0;
+#X connect 8 0 5 0;
+#X connect 13 0 15 0;
+#X connect 14 0 13 0;
+#X connect 15 0 16 0;
+#X connect 15 2 16 1;
