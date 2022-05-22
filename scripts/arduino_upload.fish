@@ -68,7 +68,9 @@ if test $dev_version -eq 1
 else if test "$dev_version" -eq "2"
 	# temporary set to arduino serial mode
 	# via midi message:
-	amidi -p 'hw:1,0,0' -S 'F0 77 77 77 09 F7'
+	set alsa_dev (amidi -l | grep 'sgDevice 2' | awk -v col=2 '{print $col}')
+	echo "alsa device: $alsa_dev"
+	amidi -p "$alsa_dev" -S 'F0 77 77 77 09 F7'
 	sleep 1
 
 	# old procedure...:
@@ -90,8 +92,8 @@ else if test "$dev_version" -eq "2"
 	and arduino-cli board list
 	and echo "compiling: "
 	cd "$temp_dir"
-	and arduino-cli compile --fqbn arduino:avr:mega --output "sgDevice_ver2" "$BASE_DIR/src/arduino/sgDevice_ver2"
-	and arduino-cli upload --fqbn arduino:avr:mega --input "sgDevice_ver2" --port $usb_dev "$BASE_DIR/src/arduino/sgDevice_ver2"
+	and arduino-cli compile --fqbn arduino:avr:mega "$BASE_DIR/src/arduino/sgDevice_ver2"
+	and arduino-cli upload --fqbn arduino:avr:mega --port $usb_dev "$BASE_DIR/src/arduino/sgDevice_ver2"
 	cd -
 else
 	echo "unknown device version"
