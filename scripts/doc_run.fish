@@ -4,6 +4,8 @@ set BASE_DIR (dirname (readlink -m (status filename)))/..
 set SCRIPTS_DIR (dirname (readlink -m (status filename)))
 set DEP_DIR $BASE_DIR/dependencies
 
+set LOG_DIR "$BASE_DIR/logs"
+
 if test ! -e $SCRIPTS_DIR/utils/cmd_args.fish
 	echo "error: fishshell-cmd-opts not installed!"
 	exit 1
@@ -17,11 +19,13 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 
 set doc_dir $BASE_DIR/doc
 set dev_version 2
+set debug_mode 0
 
 # (syntax: short/long/description)
 set options_descr \
 	'h/help/print help' \
-	"v/dev-version=/sgDevice version. default: $dev_version"
+	"v/dev-version=/sgDevice version. default: $dev_version" \
+	"d/debug/enable debug mode: log midi input to file"
 
 #################################################
 # functions
@@ -53,6 +57,9 @@ if set -q _flag_h
 else
 	if set -q _flag_dev_version
 		set dev_version $_flag_dev_version
+	end
+	if set -q _flag_debug
+		set debug_mode 1
 	end
 end
 
@@ -116,21 +123,47 @@ if test $dev_version -eq 1
 
 	wait $pd_pid
 else
-	pd -noaudio \
+
+	# 1. start pd:
+	set args -noaudio \
+		-noprefs \
+		-path "$doc_dir" \
+		-path "$DEP_DIR/zexy" \
+		-lib "zexy" \
+		-lib "sgDevice" \
+		-lib "structuredDataC" \
 		-alsamidi \
 		-stderr \
 		-midiindev 1 \
 		-midioutdev 1 \
-		-noprefs \
-		-path "$DEP_DIR/zexy" \
-		-lib "zexy" \
-		-path "$doc_dir" \
-		-lib "sgDevice" \
-		-lib "structuredDataC" \
-		-send "dev_version $dev_version" \
-		"$doc_dir/sgDevice-help.pd" &
+		-send "dev_version $dev_version"
+	if test "$debug_mode" = 1
+		mkdir -pv "$LOG_DIR"
+		set --append args -send "print_midi 1"
+		echo "args: $args"
+		pd $args "$doc_dir/sgDevice-help.pd" 2> "$LOG_DIR/pd_log.log" &
+	else
+		pd $args "$doc_dir/sgDevice-help.pd" &
+	end
 	sleep 1
 	and aconnect 'sgDevice 2' 'Pure Data'
 	and aconnect 'Pure Data':1 'sgDevice 2'
-	wait
+	
+	set pd_pid (jobs -l -p)
+	echo "pd_pid: $pd_pid"
+
+	# 2. in debug mode: start midi input:
+	if test "$debug_mode" = 1
+		amidi -p 'virtual' --dump > "$LOG_DIR/raw_log.log" &
+		sleep 1
+		and aconnect 'sgDevice 2' 'Client-130'
+
+		set amidi_pid (jobs -l -p)
+		echo "amidi_pid: $amidi_pid"
+	end
+
+	wait $pd_pid
+	if test $amidi_pid != ""
+		kill $amidi_pid
+	end
 end

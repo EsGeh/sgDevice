@@ -87,25 +87,14 @@ software utilities to use my homemade midi input device with puredata
 
 	(manuall adjust the numbering!)
 
-## Testing and Debugging
-
-### Test native Midi Device (experimental)
-
-	$ ./scripts/doc_debug_midi.fish
-
-Check `./logs/` directory afterwards
-
-### Via USB (only sgDevice ver 1)
-
-	$ ./scripts/arduino_usbdump.fish
-
 ## Documentation
 
 ### init docu
 
 	$ ./scripts/doc_init.fish
 
-(!): You'll also need some way to redirect usb midi to alsa, e.g. [ttymidi](https://github.com/cjbarnes18/ttymidi).
+In case of sgDevice ver. 1 (no native MIDI device):
+- You'll also need some way to redirect usb midi to alsa, e.g. [ttymidi](https://github.com/cjbarnes18/ttymidi).
 
 ### run docu
 
@@ -118,3 +107,25 @@ Check `./logs/` directory afterwards
 ### wiring schema
 
 ![sgDevice 2 wiring schema](img/sgDevice2_wiring.svg)
+
+## Testing and Debugging
+
+### Test native Midi Device (experimental)
+
+	$ ./scripts/doc_run.fish --debug
+
+Check `./logs/` directory afterwards
+
+### Via USB (only sgDevice ver 1)
+
+	$ ./scripts/arduino_usbdump.fish
+
+# References
+
+- MIDI Specification:
+
+	- <http://midi.teragonaudio.com/tech/midispec.htm>
+
+- [USBMidiKliK](https://github.com/EsGeh/USBMidiKliK.git):
+
+	Very advanced way to turn the Arduino into a native MIDI Device.
