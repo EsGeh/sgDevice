@@ -15,6 +15,7 @@ datadir = $(prefix)
 lib_LTLIBRARIES = sgDevice.la
 data_DATA = \
 	$(PATH_PD_OBJS)/sgDevice-help.pd \
+	$(PATH_PD_OBJS)/sgDevice-test.pd \
 	$(PATH_PD_OBJS)/sgDeviceEvents.pd \
 	$(PATH_PD_OBJS)/sgDeviceToInterface.pd \
 	$(PATH_PD_OBJS)/sgDevice_obj.pd \
