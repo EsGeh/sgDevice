@@ -176,26 +176,9 @@ class Midi
 					 || msg_type == 0x9
 				)
 				{
-					/* redirect incoming msgs
-					** on channel [0..14] -> [1..15],
-					** such that channel 0
-					** is free for the control msgs
-					** of the device
-					*/
-					if( channel < 15 )
-					{
-						// increase channel:
-						buf[0] = (msg_type << 4) + 1;
-						buf_count = 1;
-					}
-					else
-					/* incoming msgs on channel 15
-					** are ignored
-					*/
-					{
-						// ignore:
-						buf_count = 0;
-					}
+					// increase channel:
+					buf[0] = input;
+					buf_count = 1;
 				}
 				else
 				{
