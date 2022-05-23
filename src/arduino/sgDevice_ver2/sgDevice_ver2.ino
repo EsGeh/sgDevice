@@ -12,21 +12,18 @@
 #define PC_RATE 9600
 #endif
 
-// maximum value at analog pins:
-#define ANALOG_PIN_RESOULUTION 1023
-
 
 class Analog
 {
 	private:
-		float analog[ANALOG_COUNT];
+		int analog[ANALOG_COUNT];
 	public:
 		Analog()
 		{
 			for(int i=0; i<ANALOG_COUNT; i++)
 			{
-			//analog[i] = 0;
-			analog[i]= ((float )analogRead(i)) / ((float ) ANALOG_PIN_RESOULUTION);
+				//analog[i] = 0;
+				analog[i]= analogRead(i);
 			}
 		};
 
@@ -47,8 +44,8 @@ class Analog
 		{
 			for( int i=0; i<ANALOG_COUNT; i++)
 			{
-				float newVal = ((float )analogRead(i)) / ANALOG_PIN_RESOULUTION;
-				if (abs(newVal-analog[i]) >= (1.0 /ANALOG_STEPS) )
+				int newVal = analogRead(i);
+				if (abs(newVal-analog[i]) >= 2 )
 				{
 					analog[i]=newVal;
 					toPC(i);
@@ -68,15 +65,15 @@ class Analog
 				#ifndef ANALOG_DOUBLE_PRECISION
 					Serial.write( 0xB0 );
 					Serial.write( ANALOG_CONTROL_ID + i );
-					Serial.write( int( analog[i] * ANALOG_MIDI_RES ) );
+					Serial.write( analog[i] );
 				#else
-					byte lsb = int( analog[i] * ANALOG_MIDI_RES ) & 0b01111111;
-					byte msb = int( analog[i] * ANALOG_MIDI_RES ) >> 7;
+					byte msb = analog[i] >> 3;
+					byte lsb = analog[i] & 0b00000111;
 					Serial.write( 0xB0 );
-					Serial.write( ANALOG_CONTROL_ID + i - 32);
+					Serial.write( ANALOG_CONTROL_ID + i);
 					Serial.write( msb);
 					Serial.write( 0xB0 );
-					Serial.write( ANALOG_CONTROL_ID + i );
+					Serial.write( ANALOG_CONTROL_ID_FINE + i );
 					Serial.write( lsb );
 				#endif
 			#endif

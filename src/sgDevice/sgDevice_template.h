@@ -17,12 +17,14 @@
 #define IS_TRIGGER(ind) IN_RANGE(ind,TRIGGERS_CONTROL_ID,TRIGGERS_COUNT)
 #define IS_SWITCH(ind) IN_RANGE(ind,SWITCHES_CONTROL_ID,SWITCHES_COUNT)
 #define IS_ANALOG(ind) IN_RANGE(ind,ANALOG_CONTROL_ID,ANALOG_COUNT)
+#define IS_ANALOG_FINE(ind) IN_RANGE(ind,ANALOG_CONTROL_ID_FINE,ANALOG_COUNT)
 #define IS_META(ind) IN_RANGE(ind,META_CONTROL_ID,META_COUNT)
 
-#define INDEX_TRIGGER(pos) (pos-TRIGGERS)
-#define INDEX_SWITCH(pos) (pos-SWITCHES)
-#define INDEX_ANALOG(pos) (pos-ANALOG)
-#define INDEX_META(pos) (pos-META)
+#define INDEX_TRIGGER(pos) (pos-TRIGGERS_CONTROL_ID)
+#define INDEX_SWITCH(pos) (pos-SWITCHES_CONTROL_ID)
+#define INDEX_ANALOG(pos) (pos-ANALOG_CONTROL_ID)
+#define INDEX_ANALOG_FINE(pos) (pos-ANALOG_CONTROL_ID_FINE)
+#define INDEX_META(pos) (pos-META_CONTROL_ID)
 
 #define IN_RANGE(x, min,count) (x>=min && x<min+count)
 
@@ -45,9 +47,8 @@ typedef struct _sgDevice {
 	//internal obj information:
 	t_object obj;
 	ByteDynA buffer;
-	//t_int bufferLength; // number of symbols received yet
-	//t_int buffer[MAX_LENGTH_MESSAGE];
-	// most/least significant bit for control messages:
+	unsigned char analog_values[ANALOG_COUNT];
+	unsigned char analog_fine[ANALOG_COUNT];
 	// outlets:
 	t_outlet* outlet;
 } t_sgDevice;
@@ -71,15 +72,6 @@ void WITH_PREFIX(output)(
 		t_float val
 );
 
-/* output format
-	sgDevice.<descr>
-	descr ::=
-		trigger <0..5>
-		switch <0..5> <bool>
-		analog <0..5> <analogVal>
-		meta <0..2> <bool>
-*/
-
 t_class* WITH_PREFIX(register_class)( t_symbol* class_name )
 {
 	t_class* class = class_new(
@@ -102,8 +94,9 @@ t_class* WITH_PREFIX(register_class)( t_symbol* class_name )
 void* WITH_PREFIX(init)( )
 {
 	t_sgDevice* x = (t_sgDevice* )pd_new(WITH_PREFIX(class));
-	//x -> bufferLength = 0;
 	ByteDynA_init( &x->buffer );
+	memset( x->analog_values, 0, ANALOG_COUNT );
+	memset( x->analog_fine, 0, ANALOG_COUNT );
 	x -> outlet = outlet_new(& x->obj, &s_list);
 
 	return x;
@@ -117,128 +110,72 @@ void WITH_PREFIX(exit)( t_sgDevice* pThis )
 
 void WITH_PREFIX(on_input)(t_sgDevice* pThis, t_floatarg f)
 {
-	DB_PRINT( "buffer len.: %i, %x", ByteDynA_get_size( &pThis->buffer ), (int )f);
 	unsigned char current_byte = (unsigned char )f;
+
+	// STATUS BYTE:
 	if(
 		(current_byte >= 0x80)
 	)
-	// status byte:
 	{
-		unsigned char
-			msg_type = current_byte >> 4,
-			channel = (current_byte & 0b00001111 )
-			;
-		DB_PRINT( "status byte. msg: %x, channel: %i", msg_type, channel);
-		// only consider control change events:
-		if(
-			channel == 0
-			&& msg_type == 0xB
-		)
-		{
-			// continue
-			if(
-					// we already have a msb,
-					// and we are waiting for a lsb
-					ByteDynA_get_size( &pThis->buffer ) >= 2
-					&&
-					ByteDynA_get_array( &pThis->buffer )[1] < 32
-			)
-			{
-				if( ByteDynA_get_size( &pThis->buffer ) == 3 )
-				{
-					ByteDynA_append( &pThis->buffer, current_byte);
-				}
-				else
-				{
-					ByteDynA_clear( &pThis->buffer );
-				}
-			}
-			// start new message
-			else
-			{
-				ByteDynA_clear( &pThis->buffer );
-				ByteDynA_append( &pThis->buffer, current_byte);
-			}
-		}
-		else if( 
-				ByteDynA_get_size( &pThis->buffer ) > 0
-		)
-		{
-			ByteDynA_clear( &pThis->buffer );
+		ByteDynA_clear( &pThis->buffer) ;
+		char status = current_byte >> 4;
+		char channel = current_byte & 0b00001111;
+		DB_PRINT( "status.: 0x%x, channel: %u", status, channel);
+		if( 
+			status == 0xB
+			&& channel == 0
+		) {
+			ByteDynA_append( &pThis->buffer, current_byte );
 		}
 	}
-	else
-	// data byte
+	// DATA BYTE
+	else if(
+		// if we are listening:
+		ByteDynA_get_size( &pThis->buffer ) > 0
+	)
 	{
+		// 1. add data to buffer:
+		ByteDynA_append( &pThis->buffer, current_byte );
+	}
+	if(
+		ByteDynA_get_size( &pThis->buffer ) == 3
+	)
+	{
+		unsigned char control_id = ByteDynA_get_array( &pThis->buffer )[1];
+		unsigned char value =  ByteDynA_get_array( &pThis->buffer )[2];
 		if(
-				ByteDynA_get_size( &pThis->buffer ) > 0
-		)
-		// we have a status byte already,
-		// and we are waiting for data bytes
-		{
-			if(
-					ByteDynA_get_size( &pThis->buffer ) < 6
-			)
-			{
-				ByteDynA_append( &pThis->buffer, current_byte );
+				IS_ANALOG( control_id )
+				||
+				IS_ANALOG_FINE( control_id )
+		) {
+			if( IS_ANALOG( control_id ) ) {
+				pThis->analog_values[INDEX_ANALOG(control_id)] = value;
 			}
-		}
-
-		// maybe output s.t. and clear the buffer
-		if(
-				ByteDynA_get_size( &pThis->buffer ) == 3
-				&& 
-				// lsb, so we are done!
-				ByteDynA_get_array( &pThis->buffer )[1] >= 32
-		)
-		{
-			// dump lsb
+			else if( IS_ANALOG_FINE( control_id ) ) {
+				pThis->analog_fine[INDEX_ANALOG_FINE(control_id)] = value;
+				control_id -= 32;
+			}
+			unsigned int full_value =
+				(((unsigned int )pThis->analog_values[INDEX_ANALOG(control_id)]) << 3)
+				+
+				(((unsigned int )pThis->analog_fine[INDEX_ANALOG(control_id)]) << 0)
+			;
+			DB_PRINT( "ANALOG: %i, %i", control_id, full_value);
 			WITH_PREFIX(on_device_output_ctrl)(
 					pThis,
-					ByteDynA_get_array( &pThis->buffer )[1],
-					ByteDynA_get_array( &pThis->buffer )[2]
+					control_id,
+					full_value
 			);
-			ByteDynA_clear( &pThis->buffer );
 		}
-		if(
-				// we have a msb in the first triple:
-				ByteDynA_get_size( &pThis->buffer ) == 6
-				//ByteDynA_get_array( &pThis->buffer )[1] < 32
-		)
-		{
-			if(
-					// we have the corresponding lsb
-					ByteDynA_get_array( &pThis->buffer )[4]
-					==
-					ByteDynA_get_array( &pThis->buffer )[1] + 32
-			)
-			{
-				// dump msb+lsb
-				//DB_PRINT( "msb+lsb found!");
-				WITH_PREFIX(on_device_output_ctrl)(
-						pThis,
-						ByteDynA_get_array( &pThis->buffer )[4],
-						(((unsigned int )ByteDynA_get_array( &pThis->buffer )[2]) << 7)
-						+
-						(((unsigned int )ByteDynA_get_array( &pThis->buffer )[5]) << 0)
-				);
-			}
-			else
-			{
-				if(
-					ByteDynA_get_array( &pThis->buffer )[4] >= 32
-				)
-				{
-					// dump lsb
-					WITH_PREFIX(on_device_output_ctrl)(
-							pThis,
-							ByteDynA_get_array( &pThis->buffer )[4],
-							ByteDynA_get_array( &pThis->buffer )[5]
-					);
-				}
-			}
-			ByteDynA_clear( &pThis->buffer );
+		else {
+			DB_PRINT( "SOMETHING: %i, %i", control_id, value);
+			WITH_PREFIX(on_device_output_ctrl)(
+					pThis,
+					control_id,
+					value
+			);
 		}
+		ByteDynA_set_size( &pThis->buffer, 1 );
 	}
 }
 
@@ -257,7 +194,7 @@ void WITH_PREFIX(on_device_output_ctrl)(
 				pThis,
 				gensym("trigger"),
 				control_id-TRIGGERS_CONTROL_ID,
-				value
+				value > 63
 		);
 	}
 	
@@ -269,7 +206,7 @@ void WITH_PREFIX(on_device_output_ctrl)(
 				pThis,
 				gensym("switch"),
 				control_id-SWITCHES_CONTROL_ID,
-				value
+				value > 63
 		);
 	}
 
@@ -281,7 +218,7 @@ void WITH_PREFIX(on_device_output_ctrl)(
 				pThis,
 				gensym("meta"),
 				control_id-META_CONTROL_ID,
-				value
+				value > 63
 		);
 	}
 
@@ -293,7 +230,7 @@ void WITH_PREFIX(on_device_output_ctrl)(
 				pThis,
 				gensym("analog"),
 				control_id-ANALOG_CONTROL_ID,
-				((float )value)/ANALOG_MIDI_RES
+				((float )value)/((float )(ANALOG_PIN_RESOLUTION-1))
 		);
 	}
 }
@@ -316,24 +253,4 @@ void WITH_PREFIX(output)(
 		count,
 		list
 	);
-
-	/*
-	//sgDevice.analog ( index ( i ) value ( val ) )
-	t_atom list[8];
-	SETSYMBOL(&list[0], package_name);
-	SETFLOAT(&list[1], 6);
-	SETSYMBOL(&list[2], gensym("index"));
-	SETFLOAT(&list[3], 1);
-	SETFLOAT(&list[4], index);
-	SETSYMBOL(&list[5], gensym("value"));
-	SETFLOAT(&list[6], 1);
-	SETFLOAT(&list[7], val );
-
-	outlet_list(
-		pThis->outlet,
-		&s_list,
-		8,
-		list
-	);
-	*/
 }

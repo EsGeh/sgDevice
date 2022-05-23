@@ -8,9 +8,6 @@
 //#define DEBUG_PRINT
  
 
-// analog 
-#define ANALOG_PIN_RESOULUTION 1023
-
 	//SoftSerial serialMidi(PIN_MIDI_IN,PIN_MIDI_OUT);
  //unsigned long t0 = 0;
  //boolean bData = false; 
@@ -40,71 +37,69 @@
 
 class Analog
 {
-  private:
-    float analog[ANALOG_COUNT];
-  public:
-
-    Analog()
-    {
-      for(int i=0; i<ANALOG_COUNT; i++)
-      {
-        //analog[i] = 0;
-        analog[i]= ((float )analogRead(i)) / ((float ) ANALOG_PIN_RESOULUTION);
-      }
-    };
+	private:
+		int analog[ANALOG_COUNT];
+	public:
+		Analog()
+		{
+			for(int i=0; i<ANALOG_COUNT; i++)
+			{
+				//analog[i] = 0;
+				analog[i]= analogRead(i);
+			}
+		};
 
 		void setup()
 		{
 		}
 
-    // send all current values:
-    void sendAll()
-    {
-      for(int i=0; i<ANALOG_COUNT; i++)
-      {
-        toPC(i);
-      }
-    }
-	
-    void update()
-    {
-      for( int i=0; i<ANALOG_COUNT; i++)
-      {
-        float newVal = ((float )analogRead(i)) / ANALOG_PIN_RESOULUTION;
-        if (abs(newVal-analog[i]) >= (1.0 /ANALOG_STEPS) )
-        {
-          analog[i]=newVal;
-          toPC(i);
-        }
-      }
-    }
+		// send all current values:
+		void sendAll()
+		{
+			for(int i=0; i<ANALOG_COUNT; i++)
+			{
+				toPC(i);
+			}
+		}
 
-    void toPC(int i)
-    {
-      #ifdef DEBUG_PRINT
-        //Serial.println( analog[i] );
-        Serial.print( "Analog value [" );
-        Serial.print( i );
-        Serial.print( "]: " );
-        Serial.println( analog[i] );
-      #else
+		void update()
+		{
+			for( int i=0; i<ANALOG_COUNT; i++)
+			{
+				int newVal = analogRead(i);
+				if (abs(newVal-analog[i]) >= 2 )
+				{
+					analog[i]=newVal;
+					toPC(i);
+				}
+			}
+		}
+
+		void toPC(int i)
+		{
+			#ifdef DEBUG_PRINT
+				//Serial.println( analog[i] );
+				Serial.print( "Analog value [" );
+				Serial.print( i );
+				Serial.print( "]: " );
+				Serial.println( analog[i] );
+			#else
 				#ifndef ANALOG_DOUBLE_PRECISION
-				Serial.write( 0xB0 );
-				Serial.write( ANALOG_CONTROL_ID + i );
-				Serial.write( int( analog[i] * ANALOG_MIDI_RES ) );
+					Serial.write( 0xB0 );
+					Serial.write( ANALOG_CONTROL_ID + i );
+					Serial.write( analog[i] );
 				#else
-				byte lsb = int( analog[i] * ANALOG_MIDI_RES ) & 0b01111111;
-				byte msb = int( analog[i] * ANALOG_MIDI_RES ) >> 7;
-				Serial.write( 0xB0 );
-				Serial.write( ANALOG_CONTROL_ID + i - 32);
-				Serial.write( msb);
-				Serial.write( 0xB0 );
-				Serial.write( ANALOG_CONTROL_ID + i );
-				Serial.write( lsb );
+					byte msb = analog[i] >> 3;
+					byte lsb = analog[i] & 0b00000111;
+					Serial.write( 0xB0 );
+					Serial.write( ANALOG_CONTROL_ID + i);
+					Serial.write( msb);
+					Serial.write( 0xB0 );
+					Serial.write( ANALOG_CONTROL_ID_FINE + i );
+					Serial.write( lsb );
 				#endif
-      #endif
-    }
-
+			#endif
+		}
 };
 
 boolean disableModeSwitch=false;
