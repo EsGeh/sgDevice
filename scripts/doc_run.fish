@@ -163,7 +163,7 @@ else
 	end
 
 	wait $pd_pid
-	if test $amidi_pid != ""
+	if test "$amidi_pid" != ""
 		kill $amidi_pid
 	end
 end
