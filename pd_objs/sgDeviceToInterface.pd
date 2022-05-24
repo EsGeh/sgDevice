@@ -1,4 +1,4 @@
-#N canvas 0 30 721 722 10;
+#N canvas 0 0 798 868 10;
 #X obj 37 37 inlet;
 #X obj 37 60 sdPackFilter analog;
 #X obj 37 83 sdUnEvent index value;
@@ -7,37 +7,37 @@
 #X obj 174 450 outlet;
 #X obj 373 265 sdPackFilter meta;
 #X obj 409 298 loadbang;
-#N canvas 0 30 721 722 meta->mode 0;
+#N canvas 0 0 798 868 meta->mode 0;
 #X obj 60 675 outlet;
 #X obj 53 172 inlet;
 #X obj 62 330 t b b;
 #X obj 102 255 t b b;
 #X msg 130 287 clear;
-#X msg 125 510 add_script inc_dest ( meta ( index ( 2 ) value ( 127
-) ) ) ( = ( dest_index % ( + ( 1 $ ( dest_index ) ) $ ( dest_count
-) ) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index ) ) ) ) Out
-( list ) ) \, add_script dec_dest ( meta ( index ( 3 ) value ( 127
-) ) ) ( = ( dest_index % ( + ( - ( $ ( dest_count ) 1 ) $ ( dest_index
-) ) $ ( dest_count ) ) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index
-) ) ) ) Out ( list ) );
-#X msg 60 386 add_script inc_group ( meta ( index ( 0 ) value ( 127
-) ) ) ( = ( group_index % ( + ( 1 $ ( group_index ) ) $ ( group_count
+#X msg 60 386 add_script inc_group ( meta ( index ( 0 ) value ( 1 )
+) ) ( = ( group_index % ( + ( 1 $ ( group_index ) ) $ ( group_count
 ) ) ) Print ( Pack ( set Pack ( groupIndex $ ( group_index ) ) ) )
 Out ( list ) ) \, add_script dec_group ( meta ( index ( 1 ) value (
-127 ) ) ) ( = ( group_index % ( + ( - ( $ ( group_count ) 1 ) $ ( group_index
+1 ) ) ) ( = ( group_index % ( + ( - ( $ ( group_count ) 1 ) $ ( group_index
 ) ) $ ( group_count ) ) ) Print ( Pack ( set Pack ( groupIndex $ (
 group_index ) ) ) ) Out ( list ) );
+#X msg 125 510 add_script inc_dest ( meta ( index ( 2 ) value ( 1 )
+) ) ( = ( dest_index % ( + ( 1 $ ( dest_index ) ) $ ( dest_count )
+) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index ) ) ) ) Out
+( list ) ) \, add_script dec_dest ( meta ( index ( 3 ) value ( 1 )
+) ) ( = ( dest_index % ( + ( - ( $ ( dest_count ) 1 ) $ ( dest_index
+) ) $ ( dest_count ) ) ) Print ( Pack ( set Pack ( destIndex $ ( dest_index
+) ) ) ) Out ( list ) );
 #X connect 1 0 3 0;
-#X connect 2 0 6 0;
-#X connect 2 1 5 0;
+#X connect 2 0 5 0;
+#X connect 2 1 6 0;
 #X connect 3 0 2 0;
 #X connect 3 1 4 0;
 #X connect 4 0 0 0;
 #X connect 5 0 0 0;
 #X connect 6 0 0 0;
 #X restore 409 328 pd meta->mode;
-#X obj 386 295 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 386 295 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj 571 325 loadbang;
 #X obj 606 349 r \$0-group_count;
 #X msg 571 372 set group_count \$1;
