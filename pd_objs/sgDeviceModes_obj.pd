@@ -1,8 +1,8 @@
-#N canvas 0 30 844 722 10;
+#N canvas 0 0 798 854 10;
 #X obj 380 316 s \$0-fromObj;
 #X obj 273 41 r \$0-fromObj;
 #X obj 273 64 list;
-#N canvas 0 30 803 722 init 0;
+#N canvas 0 0 798 854 init 0;
 #X obj 114 320 sdPackFromHuman;
 #X obj 115 150 t b b;
 #X obj 114 343 sdPack modei;
@@ -37,13 +37,12 @@
 #X obj 97 146 route init;
 #X obj 97 169 t b;
 #X obj 63 29 inlet;
-#X obj 99 633 s \$0-send;
+#X obj 166 652 s \$0-send;
 #X obj 187 325 loadbang;
 #X obj 99 456 sdPackMatch mode mode_count;
 #X msg 227 413 set mode_count \$1;
 #X obj 227 390 r \$0-mode_count;
-#N canvas 0 30 762 722 ctrl 0;
-#X obj 32 72 sdPackFilter mode;
+#N canvas 0 0 798 854 ctrl 0;
 #X obj 26 10 inlet;
 #X obj 119 665 outlet;
 #X obj 295 180 sdData get;
@@ -68,35 +67,34 @@
 #X obj 316 20 inlet;
 #X obj 342 146 sdSetSelector set;
 #X obj 221 18 inlet;
-#X connect 0 1 10 0;
-#X connect 1 0 0 0;
-#X connect 3 0 5 0;
-#X connect 4 0 3 0;
-#X connect 5 0 16 0;
-#X connect 5 1 6 0;
-#X connect 6 0 10 0;
+#X connect 0 0 9 0;
+#X connect 2 0 4 0;
+#X connect 3 0 2 0;
+#X connect 4 0 15 0;
+#X connect 4 1 5 0;
+#X connect 5 0 9 0;
+#X connect 6 0 7 0;
+#X connect 6 2 7 1;
 #X connect 7 0 8 0;
-#X connect 7 2 8 1;
 #X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 10 0 2 0;
-#X connect 11 0 4 0;
-#X connect 12 0 11 0;
-#X connect 12 1 22 0;
-#X connect 13 0 15 0;
-#X connect 14 0 7 0;
-#X connect 15 0 14 0;
-#X connect 16 0 17 0;
-#X connect 16 1 13 0;
-#X connect 17 0 14 0;
-#X connect 21 0 12 0;
-#X connect 22 0 3 0;
-#X connect 23 0 11 0;
-#X restore 99 610 pd ctrl event -> musical event;
+#X connect 9 0 1 0;
+#X connect 10 0 3 0;
+#X connect 11 0 10 0;
+#X connect 11 1 21 0;
+#X connect 12 0 14 0;
+#X connect 13 0 6 0;
+#X connect 14 0 13 0;
+#X connect 15 0 16 0;
+#X connect 15 1 12 0;
+#X connect 16 0 13 0;
+#X connect 20 0 11 0;
+#X connect 21 0 2 0;
+#X connect 22 0 10 0;
+#X restore 166 629 pd ctrl event -> musical event;
 #X obj 505 492 s \$0-mode_count;
-#X floatatom 191 412 5 0 0 0 - - -;
+#X floatatom 191 412 5 0 0 0 - - - 0;
 #X obj 223 88 sdObjState \$1 \$2;
-#N canvas 0 30 721 722 meta->mode 0;
+#N canvas 0 0 798 854 meta->mode 0;
 #X obj 60 675 outlet;
 #X obj 53 172 inlet;
 #X obj 53 195 t b b, f 75;
@@ -104,17 +102,16 @@
 #X obj 53 218 t b b;
 #X msg 286 145 add_script non_meta ( any=[ * =] ) ( If ( != ( Pack_Type
 ( $ ( any ) ) meta ) Print ( bla ) Out ( ) ) ), f 67;
-#X msg 72 302 add_script meta ( meta ( index ( 0 ) value ( 127 ) )
-) ( = ( mode % ( + ( 1 $ ( mode ) ) $ ( mode_count ) ) ) Print ( Pack
+#X msg 72 302 add_script meta ( meta ( index ( 0 ) value ( 1 ) ) )
+( = ( mode % ( + ( 1 $ ( mode ) ) $ ( mode_count ) ) ) Print ( Pack
 ( mode $ ( mode ) ) ) Out ( list ) ) \, add_script meta ( meta ( index
-( 1 ) value ( 127 ) ) ) ( = ( mode % ( + ( - ( $ ( mode_count ) 1 )
-$ ( mode ) ) $ ( mode_count ) ) ) Print ( Pack ( mode $ ( mode ) )
-) Out ( list ) ) \, add_script meta ( meta ( index ( 0 ) ) ) ( = (
-mode % ( + ( 1 $ ( mode ) ) $ ( mode_count ) ) ) Print ( Pack ( mode
-$ ( mode ) ) ) Out ( list ) ) \, add_script meta ( meta ( index ( 1
-) ) ) ( = ( mode % ( + ( - ( $ ( mode_count ) 1 ) $ ( mode ) ) $ (
-mode_count ) ) ) Print ( Pack ( mode $ ( mode ) ) ) Out ( list ) )
-;
+( 1 ) value ( 1 ) ) ) ( = ( mode % ( + ( - ( $ ( mode_count ) 1 ) $
+( mode ) ) $ ( mode_count ) ) ) Print ( Pack ( mode $ ( mode ) ) )
+Out ( list ) ) \, add_script meta ( meta ( index ( 0 ) ) ) ( = ( mode
+% ( + ( 1 $ ( mode ) ) $ ( mode_count ) ) ) Print ( Pack ( mode $ (
+mode ) ) ) Out ( list ) ) \, add_script meta ( meta ( index ( 1 ) )
+) ( = ( mode % ( + ( - ( $ ( mode_count ) 1 ) $ ( mode ) ) $ ( mode_count
+) ) ) Print ( Pack ( mode $ ( mode ) ) ) Out ( list ) );
 #X connect 1 0 2 0;
 #X connect 2 0 4 0;
 #X connect 2 1 3 0;
@@ -122,23 +119,22 @@ mode_count ) ) ) Print ( Pack ( mode $ ( mode ) ) ) Out ( list ) )
 #X connect 4 1 6 0;
 #X connect 6 0 0 0;
 #X restore 187 355 pd meta->mode;
-#X obj 264 330 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 264 330 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X msg 167 14 list init 0;
 #X obj 362 52 r \$0-send;
 #X obj 48 693 outlet;
 #X obj 72 434 t a a;
 #X obj 99 479 sdPackFilter mode;
 #X obj 99 502 sdUnPack;
-#X obj 7 586 sdPackFilter meta;
 #X obj 296 181 sdPropertyList modes \$0;
 #X obj 516 397 r \$0-modes;
-#X obj 276 587 r \$0-modes;
+#X obj 343 606 r \$0-modes;
 #X obj 97 215 list prepend set modes;
 #X obj 450 198 sdProperty mode \$0;
 #X obj 354 389 r \$0-mode;
 #X msg 354 412 set mode \$1;
-#X floatatom 433 415 5 0 0 0 - - -;
+#X floatatom 433 415 5 0 0 0 - - - 0;
 #X obj 99 548 s \$0-mode_rcv;
 #X obj 505 469 sdData count;
 #X msg 492 443 count;
@@ -152,16 +148,17 @@ mode_count ) ) ) Print ( Pack ( mode $ ( mode ) ) ) Out ( list ) )
 #X obj 9 327 t a a;
 #X msg 99 525 priv.set \$1;
 #X obj 360 529 r \$0-mode;
-#X floatatom 367 551 5 0 0 0 - - -;
+#X floatatom 367 551 5 0 0 0 - - - 0;
 #X obj 9 304 sgDeviceEvents \$3;
 #X obj 555 221 sdProperty version \$0;
 #X obj 9 281 r \$0-version;
+#X obj 40 600 sdPackFilter meta;
 #X connect 1 0 2 0;
 #X connect 2 0 19 1;
-#X connect 3 0 32 0;
+#X connect 3 0 31 0;
 #X connect 4 0 5 0;
 #X connect 5 0 0 0;
-#X connect 6 0 29 0;
+#X connect 6 0 28 0;
 #X connect 7 0 8 0;
 #X connect 8 0 9 0;
 #X connect 9 0 3 0;
@@ -173,39 +170,39 @@ mode_count ) ) ) Print ( Pack ( mode $ ( mode ) ) ) Out ( list ) )
 #X connect 15 0 18 0;
 #X connect 16 0 11 0;
 #X connect 19 0 7 0;
-#X connect 19 1 29 0;
-#X connect 19 2 44 0;
+#X connect 19 1 28 0;
+#X connect 19 2 43 0;
 #X connect 20 0 13 0;
 #X connect 21 0 20 0;
 #X connect 22 0 19 0;
 #X connect 23 0 19 2;
-#X connect 25 0 28 0;
+#X connect 25 0 53 0;
 #X connect 25 1 13 0;
 #X connect 26 0 27 0;
-#X connect 27 0 48 0;
-#X connect 28 1 16 0;
-#X connect 29 0 0 0;
-#X connect 29 1 33 0;
-#X connect 30 0 40 0;
-#X connect 31 0 16 2;
-#X connect 32 0 6 0;
-#X connect 33 0 0 0;
-#X connect 33 1 52 0;
-#X connect 34 0 35 0;
-#X connect 34 0 36 0;
-#X connect 35 0 13 0;
-#X connect 38 0 17 0;
+#X connect 27 0 47 0;
+#X connect 28 0 0 0;
+#X connect 28 1 32 0;
+#X connect 29 0 39 0;
+#X connect 30 0 16 2;
+#X connect 31 0 6 0;
+#X connect 32 0 0 0;
+#X connect 32 1 51 0;
+#X connect 33 0 34 0;
+#X connect 33 0 35 0;
+#X connect 34 0 13 0;
+#X connect 37 0 17 0;
+#X connect 38 0 37 0;
 #X connect 39 0 38 0;
-#X connect 40 0 39 0;
-#X connect 40 1 41 0;
-#X connect 41 0 38 0;
-#X connect 43 0 24 0;
-#X connect 46 0 42 0;
-#X connect 47 0 25 0;
-#X connect 47 1 45 0;
-#X connect 48 0 37 0;
-#X connect 49 0 50 0;
-#X connect 49 0 16 1;
-#X connect 51 0 47 0;
-#X connect 52 0 0 0;
-#X connect 53 0 51 0;
+#X connect 39 1 40 0;
+#X connect 40 0 37 0;
+#X connect 42 0 24 0;
+#X connect 45 0 41 0;
+#X connect 46 0 25 0;
+#X connect 46 1 44 0;
+#X connect 47 0 36 0;
+#X connect 48 0 49 0;
+#X connect 48 0 16 1;
+#X connect 50 0 46 0;
+#X connect 51 0 0 0;
+#X connect 52 0 50 0;
+#X connect 53 1 16 0;
