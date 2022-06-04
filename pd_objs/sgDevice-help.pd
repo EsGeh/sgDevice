@@ -581,19 +581,18 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #X connect 7 1 2 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
 #X restore 330 341 pd;
-#X text 542 8 <-- 1 click here to initialize;
 #X text 436 334 simply connect analog 7 and 15 directly \, bypassing
 the GUI, f 30;
 #X obj 14 648 s \$0-fromGUI;
 #X obj 14 12 sdGui_ui GUI \$0-GUI-INIT gInstr;
 #X obj 330 86 sdGate 0;
-#X obj 646 74 f 1;
 #X obj 387 86 r \$0-enable-gui;
 #X obj 641 122 s \$0-enable-gui;
-#X obj 652 50 t b b;
-#X obj 521 10 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000;
-#X connect 0 0 24 0;
+#X obj 523 9 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000
+0 1;
+#X text 542 8 <-- 1 click here to enable;
+#X obj 652 50 t f b;
+#X connect 0 0 23 0;
 #X connect 3 0 1 0;
 #X connect 3 0 2 0;
 #X connect 4 0 3 1;
@@ -611,13 +610,12 @@ the GUI, f 30;
 #X connect 17 1 3 0;
 #X connect 18 0 13 0;
 #X connect 19 0 8 0;
-#X connect 23 0 22 0;
-#X connect 24 0 7 0;
-#X connect 25 0 27 0;
-#X connect 26 0 24 1;
+#X connect 22 0 21 0;
+#X connect 23 0 7 0;
+#X connect 24 0 23 1;
+#X connect 26 0 28 0;
 #X connect 28 0 25 0;
 #X connect 28 1 5 0;
-#X connect 29 0 28 0;
 #X restore 248 238 pd generic gui + sgDevice 2;
 #X obj 22 704 sdObjExample \$0-instr2 \$0-GLOBAL gInstr;
 #X obj 22 774 sdObjExample \$0-instr3 \$0-GLOBAL gInstr;
