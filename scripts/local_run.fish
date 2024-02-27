@@ -124,14 +124,24 @@ if test $dev_version -eq 1
 	wait $pd_pid
 else
 
+	set local_install_dir $doc_dir/usr/local/lib/pd-externals
+
+	set sgDevicePath $local_install_dir/sgDevice
+	set sdPath $local_install_dir/structuredDataC
+	set zexy_path "$local_install_dir/zexy"
+
 	# 1. start pd:
-	set args -noaudio \
+	set cmd pd
+	set --append cmd \
+		-noaudio \
 		-noprefs \
-		-path "$doc_dir" \
-		-path "$DEP_DIR/zexy" \
-		-lib "zexy" \
+		-path "$local_install_dir" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
+		-lib "zexy" \
+		-path "$sgDevicePath" \
+		-path "$sdPath" \
+		-path "$zexy_path" \
 		-alsamidi \
 		-stderr \
 		-midiindev 1 \
@@ -139,12 +149,15 @@ else
 		-send "dev_version $dev_version"
 	if test "$debug_mode" = 1
 		mkdir -pv "$LOG_DIR"
-		set --append args -send "print_midi 1"
-		echo "args: $args"
-		pd $args "$doc_dir/sgDevice-help.pd" 2> "$LOG_DIR/pd_log.log" &
-	else
-		pd $args "$doc_dir/sgDevice-help.pd" &
+		set --append cmd -send "print_midi 1"
 	end
+	set --append cmd "$sgDevicePath/sgDevice-help.pd"
+	if test "$debug_mode" = 1
+		$cmd 2> "$LOG_DIR/pd_log.log" &
+	else
+		$cmd &
+	end
+
 	sleep 1
 	and aconnect 'sgDevice 2' 'Pure Data'
 	and aconnect 'Pure Data':1 'sgDevice 2'
