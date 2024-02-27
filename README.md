@@ -25,13 +25,13 @@ Software utilities for my homemade midi device to be used with [puredata](https:
 
 ## Utility Scripts
 
-- init project (download dependencies, ...):
+- Init project (download dependencies, ...):
 
 		$ ./scripts/init.fish
 	
 	This will download and git dependencies into `./dependencies/`
 
-- clean project
+- Clean project
 
 		$ ./scripts/exit.fish
 
@@ -70,17 +70,17 @@ The script will guide you
 
 1. Install library to a local dir
 
-		$ ./scripts/doc_init.fish
+		$ ./scripts/local_init.fish
 
-2. Run docu
+2. Run Example
 
-		$ ./scripts/doc_run.fish
+		$ ./scripts/local_run.fish
 
 	This opens an example patch documenting the major parts of this library.
 
 3. Uninstall library from the local dir
 
-		$ ./scripts/doc_exit.fish
+		$ ./scripts/local_exit.fish
 
 ### Installation
 
@@ -132,7 +132,8 @@ Right clicking and selecting "help" opens an example patch for most objects.
 
 ### Test native Midi Device (experimental)
 
-	$ ./scripts/doc_run.fish --debug
+	$ ./scripts/local_init.fish
+	$ ./scripts/local_run.fish --debug
 
 Check `./logs/` directory afterwards
 
@@ -148,4 +149,4 @@ Check `./logs/` directory afterwards
 
 - [USBMidiKliK](https://github.com/EsGeh/USBMidiKliK.git):
 
-	Very advanced way to turn the Arduino into a native MIDI Device.
+	Turn the Arduino into a native MIDI Device.
