@@ -1,6 +1,6 @@
 # sgDevice
 
-software utilities to use my homemade midi input device with puredata
+Software utilities for my homemade midi device to be used with [puredata](https://puredata.info/), the famous computer music software.
 
 ## Pictures
 
@@ -12,97 +12,117 @@ software utilities to use my homemade midi input device with puredata
 
 ## Build Dependencies
 
-- fish shell
-- autotools
+- [fish shell](https://fishshell.com/)
 - arduino
 - arduino-cli
 
-## Run Dependencies
+## Runtime Dependencies
 
-- [puredata](https://puredata.info/): sgDevice is mainly to be used with puredata.
+- [puredata](https://puredata.info/): sgDevice is a midi controller to be used with puredata.
+- [zexy](https://git.iem.at/pd/zexy)
+- [structuredData](https://github.com/EsGeh/structuredData): Utiliy library for puredata
 - [ttymidi](https://github.com/cjbarnes18/ttymidi): This software can be used to connect the usb input/output to alsa on linux
 
-## Preparing the Repository, and cleaning
+## Utility Scripts
 
-- Make shure to issue this command before any other:
+- init project (download dependencies, ...):
 
 		$ ./scripts/init.fish
 	
-	This will download git repositories and dependencies and install them into the file hierarchy.
+	This will download and git dependencies into `./dependencies/`
 
-- Cleaning the file hierarchy:
+- clean project
 
 		$ ./scripts/exit.fish
 
-## Build and Install
+## Build and upload Firmware
 
-- (only sgDevice ver 2)
+### sgDevice2
 
-	- turn the Arduino into a native MIDI device:
+- Turn the Arduino into a native MIDI device:
 
-		The case has to be open in order to set a jumper.
-		This (hopefully) has only to be done once!
+    The case has to be open in order to set a jumper.
+    This (hopefully) has only to be done once!
 
-		plug the device in the PC via USB, then run:
+    plug the device in the PC via USB, then run:
 
-			$ ./scripts/arduino_upload_usb_firmware.fish
+        $ ./scripts/arduino_upload_usb_firmware.fish
 
-		(the script will guide you)
+    The script will guide you
 
-	- set midi device name:
+- Set midi device name:
 
-		plug the device in the PC via USB, then run:
+    plug the device in the PC via USB, then run:
 
-			$ ./scripts/midi_set_device_name.fish
+        $ ./scripts/midi_set_device_name.fish
 
-- build and install the software on sgDevice (arduino part):
+### sgDevice1 (deprecated)
 
-	plug the device in the PC via USB, then run:
+Plug the device in the PC via USB, then run:
 
-		$ ./scripts/arduino_upload.fish
+    $ ./scripts/arduino_upload.fish
 
-	(the script will guide you)
+The script will guide you
 
-- build and install the PC part (puredata library):
+## Build and install the Puredata Library for sgDevice
 
-		$ ./scripts/build.fish build install
-	
-	When running pd, you have 2 options:
+### Test locally without installing to system
 
-	- start pd from the command line like this:
+1. Install library to a local dir
 
-			$ pd [-path <install_path>] -lib sgDevice
+		$ ./scripts/doc_init.fish
 
-	- add this to `~/.pdsettings` :
+2. Run docu
+
+		$ ./scripts/doc_run.fish
+
+	This opens an example patch documenting the major parts of this library.
+
+3. Uninstall library from the local dir
+
+		$ ./scripts/doc_exit.fish
+
+### Installation
+
+- Build and install:
+
+        $ ./scripts/build.fish build install
+
+    (for options append `--help`)
+
+- Install the dependencies: structuredData, zexy
+
+    Please refer to the corresponding documentation for these libraries.
+
+- Add to the pd library search path:
+
+	You have two options:
+
+	- Start pd from the command line like this:
+
+			$ pd -lib sgDevice
+
+	- Add this to `~/.pdsettings` :
 
 			...
 			loadlib1: sgDevice
 			...
 
-		you might also have to adjust the library search path:
-
-			...
-			path1: <install_path>
-			...
-
-	(manuall adjust the numbering!)
+	    (manually adjust the numbering!)
 
 ## Documentation
 
-### init docu
+### Puredata Library
 
-	$ ./scripts/doc_init.fish
+The Documentation is provided as puredata example patches.
 
-In case of sgDevice ver. 1 (no native MIDI device):
-- You'll also need some way to redirect usb midi to alsa, e.g. [ttymidi](https://github.com/cjbarnes18/ttymidi).
+When the library is installed, inside pd the
 
-### run docu
+    [sgDevice-help]
 
-	$ ./scripts/doc_run.fish
+gives an overview of the relevant objects and how they are used.
 
-### cleanup docu
-
-	$ ./scripts/doc_exit.fish
+Right clicking and selecting "help" opens an example patch for most objects.
 
 ### wiring schema
 

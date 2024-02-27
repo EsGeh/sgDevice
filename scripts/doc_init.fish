@@ -22,8 +22,7 @@ set doc_dir $BASE_DIR/doc
 #################################################
 
 function print_help
-	echo "install to '$doc_dir'"
-	echo "USAGE: "(status -f)
+	echo "install library and dependencies locally into '$doc_dir'"
 end
 
 #################################################
@@ -35,27 +34,28 @@ if [ "$argv[1]" = "-h" ]; or [ "$argv[1]" = "--help" ]
 	exit
 end
 
-if test (count $argv) != 0
-	set cmds $argv
-end
-
 and begin
-	set cmd "$SCRIPTS_DIR/build.fish --prefix '$doc_dir' build install"
+	set cmd $SCRIPTS_DIR/build.fish --prefix "$doc_dir" install
 	echo "executing: '$cmd'"
-	eval "$cmd"
-end
-# replace copies with links:
-and begin
-	and rm $doc_dir/*.pd
-	set cmd "$SCRIPTS_DIR/utils/install_only_abstractions.fish --source '$BASE_DIR/pd_objs' --dest '$doc_dir' --link"
-	echo "executing: '$cmd'"
-	eval "$cmd"
+	$cmd
 end
 
 # dependencies:
 
+# zexy:
+begin
+	echo "installing zexy into '$doc_dir'"
+	cd $DEP_DIR/zexy
+	set cmd make DESTDIR="$doc_dir" install
+	echo "executing: '$cmd'"
+	$cmd
+	cd -
+end
+
 # structuredData:
 begin
 	echo "installing structuredData into '$doc_dir'"
-	and eval "$DEP_DIR/structuredData/scripts/build.fish --prefix '$doc_dir' install"
+	set cmd $DEP_DIR/structuredData/scripts/build.fish --prefix "$doc_dir" install
+	echo "executing: '$cmd'"
+	$cmd
 end

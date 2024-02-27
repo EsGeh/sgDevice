@@ -1,7 +1,11 @@
+*.[oa]
+*~
+*.pd_linux
+*.pd_darwin
+*.dll
+
 /dependencies/
-/build/
 /doc/
-/bin/
 
 # used for test logs etc:
 /logs/
