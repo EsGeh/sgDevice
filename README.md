@@ -4,6 +4,7 @@ Software utilities for my homemade midi device to be used with [puredata](https:
 
 ## Pictures
 
+![pd plus device](img/small/pd-plus-device.jpg)
 ![sgDevice ver 2](img/small/20190827_135715.jpg)
 ![sgDevice ver 2](img/small/20190827_140000.jpg)
 ![sgDevice ver 2, backside](img/small/20190827_140756.jpg)
