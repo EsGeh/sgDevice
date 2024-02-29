@@ -1,6 +1,17 @@
 # sgDevice
 
-Software utilities for my homemade midi device to be used with [puredata](https://puredata.info/), the famous computer music software.
+*sgDevice* is a MIDI interface that can send and receive MIDI messages to/from a computer via USB.
+It has a knobs, switches and triggers. The state of these controls is reported to the connected computer.
+It may therefore be used as an input device to control *any kind* of software that receives MIDI messages - there is no intrinsic audio related functionality.
+sgDevice (ver. 2) uses the [Arduino](https://www.arduino.cc/) Mega microprocessor board.
+
+This repository contains:
+
+- Basic information about *sgDevice*, a homemade MIDI device
+
+- A software library for the [puredata](https://puredata.info/) music software that enables puredata patches to react to messages from the sgDevice. This allows a pd patch to e.g. play notes when a trigger is pressed or updating an effect parameter based on a knob position
+
+- Tools and utility scripts to compile and upload the firmware to the sgDevice
 
 ## Pictures
 
@@ -10,23 +21,13 @@ Software utilities for my homemade midi device to be used with [puredata](https:
 ![sgDevice ver 2, backside](img/small/20190827_140756.jpg)
 ![sgDevice ver 2, interior](img/small/20190822_131132.jpg)
 
-
-## Build Dependencies
+## Prerequisits
 
 - [fish shell](https://fishshell.com/)
-- arduino
-- arduino-cli
 
-## Runtime Dependencies
+## Project setup
 
-- [puredata](https://puredata.info/): sgDevice is a midi controller to be used with puredata.
-- [zexy](https://git.iem.at/pd/zexy)
-- [structuredData](https://github.com/EsGeh/structuredData): Utiliy library for puredata
-- [ttymidi](https://github.com/cjbarnes18/ttymidi): This software can be used to connect the usb input/output to alsa on linux
-
-## Utility Scripts
-
-- Init project (download dependencies, ...):
+- Initialise project (download dependencies, ...):
 
 		$ ./scripts/init.fish
 	
@@ -36,9 +37,14 @@ Software utilities for my homemade midi device to be used with [puredata](https:
 
 		$ ./scripts/exit.fish
 
-## Build and upload Firmware
+# Build and upload Firmware
 
-### sgDevice2
+## Build Dependencies
+
+- [arduino-cli](https://github.com/arduino/arduino-cli)
+- ( legacy) `arduino`: only for sgDevice1
+
+## sgDevice2
 
 - Turn the Arduino into a native MIDI device:
 
@@ -57,7 +63,7 @@ Software utilities for my homemade midi device to be used with [puredata](https:
 
         $ ./scripts/midi_set_device_name.fish
 
-### sgDevice1 (deprecated)
+## sgDevice1 (legacy)
 
 Plug the device in the PC via USB, then run:
 
@@ -65,9 +71,15 @@ Plug the device in the PC via USB, then run:
 
 The script will guide you
 
-## Build and install the Puredata Library for sgDevice
+# Build and install the Puredata Library for sgDevice
 
-### Test locally without installing to system
+## Runtime Dependencies
+
+- [puredata](https://puredata.info/): sgDevice is a midi controller to be used with puredata.
+- [zexy](https://git.iem.at/pd/zexy)
+- [structuredData](https://github.com/EsGeh/structuredData): Utiliy library for puredata
+
+## Test locally without installing to system
 
 1. Install library to a local dir
 
@@ -83,7 +95,7 @@ The script will guide you
 
 		$ ./scripts/local_exit.fish
 
-### Installation
+## Installation
 
 - Build and install:
 
@@ -113,32 +125,24 @@ The script will guide you
 
 ## Documentation
 
-### Puredata Library
-
 The Documentation is provided as puredata example patches.
-
-When the library is installed, inside pd the
-
-    [sgDevice-help]
-
-gives an overview of the relevant objects and how they are used.
-
+When the library is correctly installed to pd, the `[sgDevice-help]` patch gives an overview of the relevant objects and how they are used.
 Right clicking and selecting "help" opens an example patch for most objects.
 
-### wiring schema
+# Wiring Schema
 
 ![sgDevice 2 wiring schema](img/sgDevice2_wiring.svg)
 
-## Testing and Debugging
+# Testing and Debugging
 
-### Test native Midi Device (experimental)
+## sgDevice2 - Test native Midi Device
 
 	$ ./scripts/local_init.fish
 	$ ./scripts/local_run.fish --debug
 
 Check `./logs/` directory afterwards
 
-### Via USB (only sgDevice ver 1)
+## sgDevice1 - Test USB input (legacy)
 
 	$ ./scripts/arduino_usbdump.fish
 
