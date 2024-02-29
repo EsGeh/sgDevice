@@ -73,11 +73,9 @@ The script will guide you
 
 # Build and install the Puredata Library for sgDevice
 
-## Runtime Dependencies
+## Prerequisits
 
-- [puredata](https://puredata.info/): sgDevice is a midi controller to be used with puredata.
-- [zexy](https://git.iem.at/pd/zexy)
-- [structuredData](https://github.com/EsGeh/structuredData): Utiliy library for puredata
+- [puredata](https://puredata.info/): the famous computer music software
 
 ## Test locally without installing to system
 
@@ -99,13 +97,9 @@ The script will guide you
 
 - Build and install:
 
-        $ ./scripts/build.fish build install
+        $ ./scripts/build.fish install
 
     (for options append `--help`)
-
-- Install the dependencies: structuredData, zexy
-
-    Please refer to the corresponding documentation for these libraries.
 
 - Add to the pd library search path:
 
@@ -122,6 +116,13 @@ The script will guide you
 			...
 
 	    (manually adjust the numbering!)
+
+- Make sure the [dependencies](#dependencies) are installed. Please refer to the corresponding documentation of these libraries.
+
+## Dependencies
+
+- [structuredData](https://github.com/EsGeh/structuredData): Utiliy library for puredata
+- [zexy](https://git.iem.at/pd/zexy)
 
 ## Documentation
 
