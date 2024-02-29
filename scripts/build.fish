@@ -16,6 +16,7 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 
 # where to install:
 set install_prefix "$HOME/.local/lib/pd/extra/sgDevice"
+set debug 0
 
 #################################################
 # cmd line opts:
@@ -26,7 +27,8 @@ set options_descr \
 	'h/help/print help' \
 	"p/prefix=/where to install (default: '$install_prefix')" \
 	"s/symlink/symlink pd patches" \
-	"c/only-configure/stop after configuring, don\'t run 'make'"
+	"c/only-configure/stop after configuring, don\'t run 'make'" \
+	'd/debug/compile for debugging'
 
 #################################################
 # functions
@@ -58,11 +60,11 @@ else
 	if set -q _flag_prefix
 		set install_prefix (readlink -m $_flag_prefix)
 	end
-	if set -q _flag_only_configure
-		set only_configure
-	end
 	if set -q _flag_symlink
 		set symlink
+	end
+	if set -q _flag_debug
+		set debug 1
 	end
 end
 
@@ -73,9 +75,7 @@ end
 # build
 begin
 
-	if set -q only_configure
-		exit
-	end
+	cd $BASE_DIR/
 
 	# make:
 	set cmd make
@@ -85,6 +85,9 @@ begin
 	end
 	if set --query symlink
 		set --append cmd INSTALL_DATA='ln -s'
+	end
+	if test $debug != 0
+		set --append cmd 'optimization.flags=-DDEBUG -g' 
 	end
 	set --append cmd $make_args
 	echo -e "executing: $cmd"
