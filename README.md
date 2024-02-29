@@ -101,21 +101,13 @@ The script will guide you
 
     (for options append `--help`)
 
-- Add to the pd library search path:
+- Configure pd to load the library
 
-	You have two options:
+	start pd and add `structuredDataC` under `File -> Settings -> Start -> New`
 
-	- Start pd from the command line like this:
+- Configure pd to find abstractions
 
-			$ pd -lib sgDevice
-
-	- Add this to `~/.pdsettings` :
-
-			...
-			loadlib1: sgDevice
-			...
-
-	    (manually adjust the numbering!)
+	start pd and add `<install_location>/structuredDataC` under `File -> Settings -> Path -> New`
 
 - Make sure the [dependencies](#dependencies) are installed. Please refer to the corresponding documentation of these libraries.
 
@@ -126,9 +118,8 @@ The script will guide you
 
 ## Documentation
 
-The Documentation is provided as puredata example patches.
-When the library is correctly installed to pd, the `[sgDevice-help]` patch gives an overview of the relevant objects and how they are used.
-Right clicking and selecting "help" opens an example patch for most objects.
+The Documentation is provided as puredata example patches accessible in pd under `Help -> Patch Browser -> structuredDataC`.
+Alternatively, for help with a specific object, right click on it and select "help".
 
 # Wiring Schema
 
