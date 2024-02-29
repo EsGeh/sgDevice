@@ -1,4 +1,4 @@
-#N canvas 800 221 798 189 10;
+#N canvas 0 0 1598 621 10;
 #X obj 484 160 loadbang;
 #X obj 484 206 s \$0-GLOBAL;
 #X msg 484 183 list init 0;
@@ -21,8 +21,7 @@
 #N canvas 0 0 798 854 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -37,8 +36,7 @@
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -56,8 +54,7 @@
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -70,18 +67,15 @@
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 19 228 pd;
 #X text 5 182 same for piano keybord...;
-#X text 432 32 sends events of type "analog" \, "trigger" \, "switch"
-and "meta", f 31;
+#X text 432 32 sends events of type "analog" \, "trigger" \, "switch" and "meta", f 31;
 #X text 432 124 sends events of type "key";
 #X text 431 215 sends events of type "note";
 #X text 233 126 name \, global_rcv;
-#X text 233 33 name global_rcv [device_ver channel(0: any)], f 24
-;
+#X text 233 33 name global_rcv [device_ver channel(0: any)], f 24;
 #X obj 43 347 sdPackFromHuman;
 #X obj 43 370 s Piano_raw;
 #X text 33 300 send notes to piano:;
-#X text 244 225 name global_rcv [out_channel(0: any) in_channel(0:
-any) startmsg stopmsg], f 27;
+#X text 244 225 name global_rcv [out_channel(0: any) in_channel(0: any) startmsg stopmsg], f 27;
 #X obj 19 204 sdPiano_obj Piano_raw \$0-GLOBAL 1 1 start stop;
 #X msg 43 324 list note ( pitch ( 60 ) volume ( 0.5 ) );
 #X connect 4 0 2 0;
@@ -90,15 +84,13 @@ any) startmsg stopmsg], f 27;
 #X connect 17 0 6 0;
 #X connect 18 0 13 0;
 #X restore 33 348 pd simple input based on sdEvents;
-#X text 470 14 set "sgDevice" version based on cmd line args:, f 19
-;
+#X text 470 14 set "sgDevice" version based on cmd line args:, f 19;
 #X obj 31 92 sgDevice-test;
 #X obj 31 16 midiin;
 #X obj 31 68 sgDevice2;
 #N canvas 0 0 798 854 (subpatch) 0;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -201,26 +193,22 @@ any) startmsg stopmsg], f 27;
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 31 40 pd;
 #X obj 142 41 r print_midi;
-#N canvas 800 0 798 189 control 1;
+#N canvas 0 0 1598 621 control 0;
 #X obj 262 615 r \$0-out;
 #N canvas 0 0 798 854 out 0;
 #X obj 315 49 sdEventToProperties;
 #X obj 426 72 sdProperty volume \$0;
-#X obj 105 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
-#000000 #000000 0 1;
+#X obj 105 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 62 51 r \$0-volume;
 #X obj 315 26 inlet;
 #X floatatom 105 210 5 0 0 0 - - - 0;
 #X obj 543 95 sdProperty reverb \$0;
-#X obj 145 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc
-#000000 #000000 0 1;
+#X obj 145 138 vsl 15 64 0 1 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
 #X floatatom 145 210 5 0 0 0 - - - 0;
 #X obj 145 58 r \$0-reverb;
-#X obj 105 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 105 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 61 26 r \$0-volume_enable;
-#X obj 145 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 145 117 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 205 83 r \$0-reverb_enable;
 #X obj 425 145 sdProperty volume_enable \$0;
 #X obj 542 168 sdProperty reverb_enable \$0;
@@ -238,23 +226,16 @@ any) startmsg stopmsg], f 27;
 #X coords 0 -1 1 1 85 130 1 100 100;
 #X restore 262 638 pd out;
 #N canvas 0 0 798 854 send 0;
-#X text 109 223 you can step through modes using the "meta" triggers
-(if there are multiple modes), f 25;
+#X text 109 223 you can step through modes using the "meta" triggers (if there are multiple modes), f 25;
 #X text 11 138 the "sgDevice" with "modes";
 #X obj 266 156 sdKeyboardModes_ui Keyboard \$0-GLOBAL;
 #X floatatom 266 113 5 0 0 0 - - - 0;
 #X msg 266 134 list set 3 mode 1 \$1;
 #X obj 19 157 sgDeviceModes_ui sgDevice \$0-GLOBAL 1;
-#X obj 429 291 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
-#000000 #000000;
+#X obj 429 291 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #N canvas 0 0 798 854 modes 0;
 #X obj 129 400 sdPackFromHuman;
-#X msg 114 303 list play ( #[ ( trigger ( index ( ?index ) ) ) ( Print
-( Pack ( play Pack ( pitch $ ( index ) ) ) ) Out ( list ) ) #] ) volume
-( #[ ( analog ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack (
-volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index
-( 1 ) value ( ?value ) ) ) ( Print ( Pack ( bend $ ( value ) ) ) Out
-( list ) ) #] );
+#X msg 114 303 list play ( #[ ( trigger ( index ( ?index ) ) ) ( Print ( Pack ( play Pack ( pitch $ ( index ) ) ) ) Out ( list ) ) #] ) volume ( #[ ( analog ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack ( volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack ( bend $ ( value ) ) ) Out ( list ) ) #] );
 #X obj 106 110 t b b;
 #X obj 129 423 sdPack modei;
 #X obj 266 65 t b b;
@@ -267,14 +248,7 @@ volume $ ( value ) ) ) Out ( list ) ) #] ) bend ( #[ ( analog ( * index
 #X obj 65 455 t b;
 #X obj 213 555 sdPack set;
 #X obj 213 532 sdPack modes;
-#X msg 133 132 list out_vol ( #[ ( analog ( * index ( 0 ) value ( ?value
-) ) ) ( Print ( Pack ( out_volume $ ( value ) ) ) Out ( list ) ) #]
-) out_reverb ( #[ ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print
-( Pack ( out_reverb $ ( value ) ) ) Out ( list ) ) #] ) out_vol_enable
-( #[ ( switch ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack (
-out_volume_enable $ ( value ) ) ) Out ( list ) ) #] ) out_reverb_enable
-( #[ ( switch ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack (
-out_reverb_enable $ ( value ) ) ) Out ( list ) ) #] );
+#X msg 133 132 list out_vol ( #[ ( analog ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack ( out_volume $ ( value ) ) ) Out ( list ) ) #] ) out_reverb ( #[ ( analog ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack ( out_reverb $ ( value ) ) ) Out ( list ) ) #] ) out_vol_enable ( #[ ( switch ( * index ( 0 ) value ( ?value ) ) ) ( Print ( Pack ( out_volume_enable $ ( value ) ) ) Out ( list ) ) #] ) out_reverb_enable ( #[ ( switch ( * index ( 1 ) value ( ?value ) ) ) ( Print ( Pack ( out_reverb_enable $ ( value ) ) ) Out ( list ) ) #] );
 #X connect 0 0 3 0;
 #X connect 1 0 0 0;
 #X connect 2 0 1 0;
@@ -307,17 +281,13 @@ out_reverb_enable $ ( value ) ) ) Out ( list ) ) #] );
 #X obj 50 375 t b;
 #X obj 205 598 sdPack set;
 #X obj 205 575 sdPack modes;
-#X msg 114 188 list out_vol ( #[ ( key ( * symbol ( \$1 ) value ( 1
-) ) ) ( Print ( Pack ( play Pack ( pitch \$2 ) ) ) Out ( list ) ) #]
-);
+#X msg 114 188 list out_vol ( #[ ( key ( * symbol ( \$1 ) value ( 1 ) ) ) ( Print ( Pack ( play Pack ( pitch \$2 ) ) ) Out ( list ) ) #] );
 #X obj 114 165 pack s f;
-#X msg 114 129 a 0 \, s 2 \, d 4 \, f 5 \, g 7 \, h 9 \, j 11 \, k
-12 \, w 1 \, e 3 \, t 6 \, z 8 \, u 10;
+#X msg 114 129 a 0 \, s 2 \, d 4 \, f 5 \, g 7 \, h 9 \, j 11 \, k 12 \, w 1 \, e 3 \, t 6 \, z 8 \, u 10;
 #X obj 122 354 sdData;
 #X msg 519 225 clear;
 #X obj 76 94 t b b b, f 66;
-#X obj 81 67 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000;
+#X obj 81 67 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X connect 0 0 15 1;
 #X connect 1 0 4 0;
 #X connect 2 0 17 0;
@@ -342,14 +312,11 @@ out_reverb_enable $ ( value ) ) ) Out ( list ) ) #] );
 #X connect 18 0 17 0;
 #X restore 429 377 pd modes;
 #X obj 429 400 s Keyboard;
-#X text 334 242 you can set other "modes" to send specific events \,
-like "output volume" \, "play note" \, ..., f 44;
+#X text 334 242 you can set other "modes" to send specific events \, like "output volume" \, "play note" \, ..., f 44;
 #X obj 429 311 t b b;
 #X text 446 286 set advanced modes;
 #X obj 468 354 s sgDevice;
-#X text 40 17 in this scenario you can use the "meta" buttons to switch
-through several "modes". A mode is a mapping from some input controls
-to a message.;
+#X text 40 17 in this scenario you can use the "meta" buttons to switch through several "modes". A mode is a mapping from some input controls to a message.;
 #X obj 64 344 outlet;
 #X obj 289 269 t a;
 #X connect 2 0 17 0;
@@ -364,8 +331,7 @@ to a message.;
 #X connect 17 0 16 0;
 #X restore 21 239 pd send sdEvents with "modes";
 #X text 29 330 intermediate step (optional):;
-#X text 42 349 redirect events from input devices to instruments or
-other objects, f 27;
+#X text 42 349 redirect events from input devices to instruments or other objects, f 27;
 #N canvas 0 0 798 854 events 0;
 #X obj 50 34 inlet;
 #X obj 90 279 outlet;
@@ -375,28 +341,14 @@ other objects, f 27;
 #X obj 89 384 sdReplace \$0;
 #X obj 89 29 inlet;
 #X obj 89 407 outlet;
-#X msg 89 63 clear \, add_script play_to_instr ( play ( args=[ * =]
-) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume
-$ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume
-( ?vol ) ) ( = ( volume $ ( vol ) ) ) \, add_script out_vol ( out_volume
-( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol Pack ( volume
-$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_rev ( out_reverb
-( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_rev Pack ( reverb
-$ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_vol_enable ( out_volume_enable
-( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol_enable Pack
-( volume_enable $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_reverb_enable
-( out_reverb_enable ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack (
-set_reverb_enable Pack ( reverb_enable $ ( any ) ) ) ) ) Out ( list
-) ) );
+#X msg 89 63 clear \, add_script play_to_instr ( play ( args=[ * =] ) ) ( Print ( Pack ( %0-instr Pack ( start $ ( args ) Pack ( volume $ ( volume ) ) ) ) ) Out ( list ) ) \, add_script vol_to_instr ( volume ( ?vol ) ) ( = ( volume $ ( vol ) ) ) \, add_script out_vol ( out_volume ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol Pack ( volume $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_rev ( out_reverb ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_rev Pack ( reverb $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_vol_enable ( out_volume_enable ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_vol_enable Pack ( volume_enable $ ( any ) ) ) ) ) Out ( list ) ) ) \, add_script out_reverb_enable ( out_reverb_enable ( any=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set_reverb_enable Pack ( reverb_enable $ ( any ) ) ) ) ) Out ( list ) ) );
 #X connect 0 0 2 0;
 #X connect 1 0 3 0;
 #X connect 3 0 0 0;
 #X restore 139 121 pd <event> -> <dest> ( <event> );
-#X obj 197 100 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
-#000000 #000000;
+#X obj 197 100 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X text 351 120 <- the mapping is defined here;
-#X text 238 155 <- global var to remember current "volume" for the
-instrument;
+#X text 238 155 <- global var to remember current "volume" for the instrument;
 #X connect 0 0 3 0;
 #X connect 2 0 4 0;
 #X connect 3 0 1 0;
@@ -406,14 +358,13 @@ instrument;
 #X obj 21 513 sdUnPack;
 #X obj 21 537 send;
 #X obj 22 634 sdObjExample \$0-instr \$0-GLOBAL gInstr;
-#N canvas 0 0 798 854 generic 1;
+#N canvas 0 0 1598 621 generic 0;
 #X obj 330 63 sgDevice_obj sgDev_raw \$0-GLOBAL 1;
 #X obj 513 273 s GUI;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -432,8 +383,7 @@ instrument;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -448,8 +398,7 @@ instrument;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -464,8 +413,7 @@ instrument;
 #N canvas 0 0 798 854 to-objects 0;
 #X obj 75 166 sdPackMatch;
 #X obj 155 119 sdReplace \$0;
-#X msg 155 80 clear \, add_script out ( out ( args=[ * =] ) ) ( Print
-( Pack ( %0-out Pack ( set $ ( args ) ) ) ) Out ( list ) );
+#X msg 155 80 clear \, add_script out ( out ( args=[ * =] ) ) ( Print ( Pack ( %0-out Pack ( set $ ( args ) ) ) ) Out ( list ) );
 #X obj 155 57 loadbang;
 #X obj 31 68 inlet;
 #X obj 75 189 outlet;
@@ -478,8 +426,7 @@ instrument;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -499,13 +446,7 @@ instrument;
 #X obj 76 191 outlet;
 #X obj 8 17 inlet;
 #X obj 143 193 outlet;
-#X msg 128 44 clear \, add out analog ( * value ( ?volume ) index (
-0 ) ) \, add out analog ( * value ( ?reverb ) index ( 1 ) ) \, add_script
-out-enable ( switch ( * value ( ?value ) index ( 0 ) ) ) ( Print (
-Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
-) ) \, add_script reverb-enable ( switch ( * value ( ?value ) index
-( 1 ) ) ) ( Print ( Pack ( out Pack ( reverb_enable != ( 0 $ ( value
-) ) ) ) ) Out ( list ) );
+#X msg 128 44 clear \, add out analog ( * value ( ?volume ) index ( 0 ) ) \, add out analog ( * value ( ?reverb ) index ( 1 ) ) \, add_script out-enable ( switch ( * value ( ?value ) index ( 0 ) ) ) ( Print ( Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list ) ) \, add_script reverb-enable ( switch ( * value ( ?value ) index ( 1 ) ) ) ( Print ( Pack ( out Pack ( reverb_enable != ( 0 $ ( value ) ) ) ) ) Out ( list ) );
 #X connect 0 0 2 0;
 #X connect 0 1 4 0;
 #X connect 1 0 5 0;
@@ -513,8 +454,7 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #X connect 5 0 0 0;
 #X restore 330 263 pd reserved-input;
 #X text 634 227 <-- control interface/gui by sgDevice;
-#X text 454 141 <- catch some controls and connect them statically
-;
+#X text 454 141 <- catch some controls and connect them statically;
 #N canvas 0 0 798 854 filter_analog 0;
 #X obj 55 70 sdPackFilter analog, f 50;
 #X obj 65 150 outlet;
@@ -548,8 +488,7 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -567,10 +506,8 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #X obj 110 202 sdGate;
 #X obj 40 202 outlet;
 #X obj 110 225 print events;
-#X obj 104 120 tgl 15 0 empty empty enable 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
-#X obj 104 140 tgl 15 0 empty empty print 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 104 120 tgl 15 0 empty empty enable 17 7 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 104 140 tgl 15 0 empty empty print 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 37 60 t a a;
 #X connect 0 0 7 0;
 #X connect 1 0 3 0;
@@ -581,15 +518,13 @@ Pack ( out Pack ( volume_enable != ( 0 $ ( value ) ) ) ) ) Out ( list
 #X connect 7 1 2 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
 #X restore 330 341 pd;
-#X text 436 334 simply connect analog 7 and 15 directly \, bypassing
-the GUI, f 30;
+#X text 436 334 simply connect analog 7 and 15 directly \, bypassing the GUI, f 30;
 #X obj 14 648 s \$0-fromGUI;
 #X obj 14 12 sdGui_ui GUI \$0-GUI-INIT gInstr;
 #X obj 330 86 sdGate 0;
 #X obj 387 86 r \$0-enable-gui;
 #X obj 641 122 s \$0-enable-gui;
-#X obj 523 9 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000
-0 1;
+#X obj 523 9 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 652 50 t f b;
 #X text 542 8 <-- 1 click here to enable;
 #X connect 0 0 23 0;
@@ -625,10 +560,8 @@ the GUI, f 30;
 #X obj 110 202 sdGate;
 #X obj 40 202 outlet;
 #X obj 110 225 print events;
-#X obj 104 120 tgl 15 0 empty empty enable 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
-#X obj 104 140 tgl 15 0 empty empty print 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 104 120 tgl 15 0 empty empty enable 17 7 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 104 140 tgl 15 0 empty empty print 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 37 60 t a a;
 #X connect 0 0 7 0;
 #X connect 1 0 3 0;
@@ -646,8 +579,7 @@ the GUI, f 30;
 #N canvas 0 30 762 722 (subpatch) 0;
 #X obj 67 163 print;
 #X obj 67 139 sdGate;
-#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000 0 1;
+#X obj 121 103 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 40 114 t a a;
 #X text 136 101 print msgs;
 #X obj 35 38 inlet;
@@ -659,8 +591,7 @@ the GUI, f 30;
 #X connect 5 0 3 0;
 #X coords 0 -1 1 1 100 22 1 100 100;
 #X restore 21 431 pd;
-#X text 246 164 To test this: uncheck "enable on the left side first
-\, to prevent interference. Open patch..., f 29;
+#X text 246 164 To test this: uncheck "enable on the left side first \, to prevent interference. Open patch..., f 29;
 #X connect 0 0 1 0;
 #X connect 2 0 12 0;
 #X connect 5 0 17 0;
