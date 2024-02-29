@@ -19,11 +19,6 @@ source $SCRIPTS_DIR/utils/cmd_args.fish
 #################################################
 
 set doc_dir $BASE_DIR/doc
-set local_install_dir $doc_dir/usr/local/lib/pd-externals
-
-set sgDevicePath $local_install_dir/sgDevice
-set sdPath $local_install_dir/structuredDataC
-set zexy_path "$local_install_dir/zexy"
 
 #################################################
 # variables
@@ -31,7 +26,7 @@ set zexy_path "$local_install_dir/zexy"
 
 set dev_version 2
 set debug_mode 0
-set pd_patch "$sgDevicePath/sgDevice-help.pd"
+set pd_patch "$doc_dir/sgDevice/sgDevice-help.pd"
 
 #################################################
 # cmd line opts:
@@ -121,11 +116,12 @@ if test $dev_version -eq 1
 		-midiindev 1 \
 		-midioutdev 1 \
 		-noprefs \
-		-path "$DEP_DIR/zexy" \
-		-lib "zexy" \
 		-path "$doc_dir" \
+		-path "$doc_dir/structuredDataC" \
+		-path "$doc_dir/zexy" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
+		-lib "zexy" \
 		-send "dev_version $dev_version" \
 		"$doc_dir/sgDevice-help.pd" &
 
@@ -147,14 +143,12 @@ else
 	set cmd pd
 	set --append cmd \
 		-noaudio \
-		-noprefs \
-		-path "$local_install_dir" \
+		-path "$doc_dir" \
+		-path "$doc_dir/structuredDataC" \
+		-path "$doc_dir/zexy" \
 		-lib "sgDevice" \
 		-lib "structuredDataC" \
 		-lib "zexy" \
-		-path "$sgDevicePath" \
-		-path "$sdPath" \
-		-path "$zexy_path" \
 		-alsamidi \
 		-stderr \
 		-midiindev 1 \
