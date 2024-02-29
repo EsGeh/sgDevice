@@ -13,13 +13,29 @@ end
 
 source $SCRIPTS_DIR/utils/cmd_args.fish
 
+
+#################################################
+# paths
+#################################################
+
+set doc_dir $BASE_DIR/doc
+set local_install_dir $doc_dir/usr/local/lib/pd-externals
+
+set sgDevicePath $local_install_dir/sgDevice
+set sdPath $local_install_dir/structuredDataC
+set zexy_path "$local_install_dir/zexy"
+
 #################################################
 # variables
 #################################################
 
-set doc_dir $BASE_DIR/doc
 set dev_version 2
 set debug_mode 0
+set pd_patch "$sgDevicePath/sgDevice-help.pd"
+
+#################################################
+# cmd line opts:
+#################################################
 
 # (syntax: short/long/description)
 set options_descr \
@@ -61,6 +77,9 @@ else
 	if set -q _flag_debug
 		set debug_mode 1
 	end
+end
+if test (count $argv) -gt 0
+	set pd_patch $argv
 end
 
 #################################################
@@ -124,12 +143,6 @@ if test $dev_version -eq 1
 	wait $pd_pid
 else
 
-	set local_install_dir $doc_dir/usr/local/lib/pd-externals
-
-	set sgDevicePath $local_install_dir/sgDevice
-	set sdPath $local_install_dir/structuredDataC
-	set zexy_path "$local_install_dir/zexy"
-
 	# 1. start pd:
 	set cmd pd
 	set --append cmd \
@@ -151,7 +164,7 @@ else
 		mkdir -pv "$LOG_DIR"
 		set --append cmd -send "print_midi 1"
 	end
-	set --append cmd "$sgDevicePath/sgDevice-help.pd"
+	set --append cmd $pd_patch
 	if test "$debug_mode" = 1
 		$cmd 2> "$LOG_DIR/pd_log.log" &
 	else
