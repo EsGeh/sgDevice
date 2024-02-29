@@ -38,7 +38,7 @@ set pd_lib_builder \
 set structuredData \
 	structuredData \
 	https://github.com/EsGeh/structuredData.git \
-	3ab006533caf9f723fae844272f9bcf6ad4b07fa \
+	2cf4904ba4ffb82178d71cbeb0bb56abd7dedb66 \
 	"scripts/init.fish --deps-dir \$DEP_DIR"
 
 set zexy \
