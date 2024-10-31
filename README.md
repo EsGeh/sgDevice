@@ -21,6 +21,12 @@ This repository contains:
 ![sgDevice ver 2, backside](img/small/20190827_140756.jpg)
 ![sgDevice ver 2, interior](img/small/20190822_131132.jpg)
 
+## Demos
+
+[Dark Ambient Music with Puredata+sgDevice2](https://youtube.com/watch?v=bEVVliKHZgQ):
+
+[![Dark Ambient Music with Puredata+sgDevice2](https://img.youtube.com/vi/bEVVliKHZgQ/0.jpg)](https://youtube.com/watch?v=bEVVliKHZgQ)
+
 ## Prerequisits
 
 - [fish shell](https://fishshell.com/)
